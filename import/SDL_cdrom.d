@@ -24,7 +24,7 @@
 
 import SDL_types;
 
-extern(C):
+extern (C):
 
 /* In order to use these functions, SDL_Init() must have been called
    with the SDL_INIT_CDROM flag.  This causes SDL to scan the system
@@ -32,15 +32,16 @@ extern(C):
 */
 
 /* The maximum number of CD-ROM tracks on a disk */
-const int SDL_MAX_TRACKS	= 99;
+const int SDL_MAX_TRACKS = 99;
 
 /* The types of CD-ROM track possible */
-const uint SDL_AUDIO_TRACK	= 0x00;
-const uint SDL_DATA_TRACK	= 0x04;
+const uint SDL_AUDIO_TRACK = 0x00;
+const uint SDL_DATA_TRACK = 0x04;
 
 /* The possible states which a CD-ROM drive can be in. */
 alias int CDstatus;
-enum {
+enum
+{
 	CD_TRAYEMPTY,
 	CD_STOPPED,
 	CD_PLAYING,
@@ -49,30 +50,35 @@ enum {
 }
 
 /* Given a status, returns true if there's a disk in the drive */
-bool CD_INDRIVE(int status) { return status > 0; }
+bool CD_INDRIVE(int status)
+{
+	return status > 0;
+}
 
-struct SDL_CDtrack {
-	Uint8 id;		/* Track number */
-	Uint8 type;		/* Data or audio track */
+struct SDL_CDtrack
+{
+	Uint8 id; /* Track number */
+	Uint8 type; /* Data or audio track */
 	Uint16 unused;
-	Uint32 length;		/* Length, in frames, of this track */
-	Uint32 offset;		/* Offset, in frames, from start of disk */
+	Uint32 length; /* Length, in frames, of this track */
+	Uint32 offset; /* Offset, in frames, from start of disk */
 }
 
 /* This structure is only current as of the last call to SDL_CDStatus() */
-struct SDL_CD {
-	int id;			/* Private drive identifier */
-	CDstatus status;	/* Current drive status */
+struct SDL_CD
+{
+	int id; /* Private drive identifier */
+	CDstatus status; /* Current drive status */
 
 	/* The rest of this structure is only valid if there's a CD in drive */
-	int numtracks;		/* Number of tracks on disk */
-	int cur_track;		/* Current track position */
-	int cur_frame;		/* Current frame offset within current track */
-	SDL_CDtrack[SDL_MAX_TRACKS+1] track;
+	int numtracks; /* Number of tracks on disk */
+	int cur_track; /* Current track position */
+	int cur_frame; /* Current frame offset within current track */
+	SDL_CDtrack[SDL_MAX_TRACKS + 1] track;
 }
 
 /* Conversion functions from frames to Minute/Second/Frames and vice versa */
-const uint CD_FPS	= 75;
+const uint CD_FPS = 75;
 void FRAMES_TO_MSF(int f, out int M, out int S, out int F)
 {
 	int value = f;
@@ -101,7 +107,7 @@ int SDL_CDNumDrives();
 	"E:"
 	"/dev/disk/ide/1/master"
 */
-char * SDL_CDName(int drive);
+char* SDL_CDName(int drive);
 
 /* Opens a CD-ROM drive for access.  It returns a drive handle on success,
    or NULL if the drive was invalid or busy.  This newly opened CD-ROM
@@ -109,18 +115,18 @@ char * SDL_CDName(int drive);
    CD-ROM handle.
    Drives are numbered starting with 0.  Drive 0 is the system default CD-ROM.
 */
-SDL_CD * SDL_CDOpen(int drive);
+SDL_CD* SDL_CDOpen(int drive);
 
 /* This function returns the current status of the given drive.
    If the drive has a CD in it, the table of contents of the CD and current
    play position of the CD will be stored in the SDL_CD structure.
 */
-CDstatus SDL_CDStatus(SDL_CD *cdrom);
+CDstatus SDL_CDStatus(SDL_CD* cdrom);
 
 /* Play the given CD starting at 'start_track' and 'start_frame' for 'ntracks'
-   tracks and 'nframes' frames.  If both 'ntrack' and 'nframe' are 0, play 
+   tracks and 'nframes' frames.  If both 'ntrack' and 'nframe' are 0, play
    until the end of the CD.  This function will skip data tracks.
-   This function should only be called after calling SDL_CDStatus() to 
+   This function should only be called after calling SDL_CDStatus() to
    get track information about the CD.
    For example:
 	// Play entire CD:
@@ -136,25 +142,25 @@ CDstatus SDL_CDStatus(SDL_CD *cdrom);
 
    This function returns 0, or -1 if there was an error.
 */
-int SDL_CDPlayTracks(SDL_CD *cdrom,
-		int start_track, int start_frame, int ntracks, int nframes);
+int SDL_CDPlayTracks(SDL_CD* cdrom,
+	int start_track, int start_frame, int ntracks, int nframes);
 
 /* Play the given CD starting at 'start' frame for 'length' frames.
    It returns 0, or -1 if there was an error.
 */
-int SDL_CDPlay(SDL_CD *cdrom, int start, int length);
+int SDL_CDPlay(SDL_CD* cdrom, int start, int length);
 
 /* Pause play -- returns 0, or -1 on error */
-int SDL_CDPause(SDL_CD *cdrom);
+int SDL_CDPause(SDL_CD* cdrom);
 
 /* Resume play -- returns 0, or -1 on error */
-int SDL_CDResume(SDL_CD *cdrom);
+int SDL_CDResume(SDL_CD* cdrom);
 
 /* Stop play -- returns 0, or -1 on error */
-int SDL_CDStop(SDL_CD *cdrom);
+int SDL_CDStop(SDL_CD* cdrom);
 
 /* Eject CD-ROM -- returns 0, or -1 on error */
-int SDL_CDEject(SDL_CD *cdrom);
+int SDL_CDEject(SDL_CD* cdrom);
 
 /* Closes the handle for the CD-ROM drive */
-void SDL_CDClose(SDL_CD *cdrom);
+void SDL_CDClose(SDL_CD* cdrom);

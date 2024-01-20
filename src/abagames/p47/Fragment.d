@@ -20,10 +20,11 @@ import abagames.p47.P47Screen;
 /**
  * Enemys' fragments.
  */
-public class Fragment: LuminousActor {
- public:
+public class Fragment : LuminousActor
+{
+public:
   static const float R = 1, G = 0.8, B = 0.6;
- private:
+private:
   static Rand rand;
   static const int POINT_NUM = 2;
   Vector[POINT_NUM] pos;
@@ -34,28 +35,34 @@ public class Fragment: LuminousActor {
   float retro;
   int cnt;
 
-  public override Actor newActor() {
+  public override Actor newActor()
+  {
     return new Fragment;
   }
 
-  public override void init(ActorInitializer ini) {
-    if (rand is null) rand = new Rand;
+  public override void init(ActorInitializer ini)
+  {
+    if (rand is null)
+      rand = new Rand;
     FragmentInitializer fi = cast(FragmentInitializer) ini;
-    for (int i = 0; i < POINT_NUM; i++) {
+    for (int i = 0; i < POINT_NUM; i++)
+    {
       pos[i] = new Vector;
       vel[i] = new Vector;
     }
     impact = new Vector;
   }
 
-  public void set(float x1, float y1, float x2, float y2, float z, float speed, float deg) {
+  public void set(float x1, float y1, float x2, float y2, float z, float speed, float deg)
+  {
     float r1 = rand.nextFloat(1);
     float r2 = rand.nextFloat(1);
     pos[0].x = x1 * r1 + x2 * (1 - r1);
     pos[0].y = y1 * r1 + y2 * (1 - r1);
     pos[1].x = x1 * r2 + x2 * (1 - r2);
     pos[1].y = y1 * r2 + y2 * (1 - r2);
-    for (int i = 0; i < POINT_NUM; i++) {
+    for (int i = 0; i < POINT_NUM; i++)
+    {
       vel[i].x = rand.nextSignedFloat(1) * speed;
       vel[i].y = rand.nextSignedFloat(1) * speed;
     }
@@ -68,13 +75,16 @@ public class Fragment: LuminousActor {
     isExist = true;
   }
 
-  public override void move() {
+  public override void move()
+  {
     cnt--;
-    if (cnt < 0) {
+    if (cnt < 0)
+    {
       isExist = false;
       return;
     }
-    for (int i = 0; i < POINT_NUM; i++) {
+    for (int i = 0; i < POINT_NUM; i++)
+    {
       pos[i].add(vel[i]);
       pos[i].add(impact);
       vel[i].mul(0.98);
@@ -84,19 +94,23 @@ public class Fragment: LuminousActor {
     retro *= 0.97;
   }
 
-  public override void draw() {
+  public override void draw()
+  {
     P47Screen.setRetroZ(z);
     P47Screen.setRetroParam(retro, 0.2);
     P47Screen.drawLineRetro(pos[0].x, pos[0].y, pos[1].x, pos[1].y);
   }
 
-  public override void drawLuminous() {
-    if (lumAlp < 0.2) return;
+  public override void drawLuminous()
+  {
+    if (lumAlp < 0.2)
+      return;
     Screen3D.setColor(R, G, B, lumAlp);
     glVertex3f(pos[0].x, pos[0].y, z);
     glVertex3f(pos[1].x, pos[1].y, z);
   }
 }
 
-public class FragmentInitializer: ActorInitializer {
+public class FragmentInitializer : ActorInitializer
+{
 }

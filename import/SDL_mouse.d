@@ -25,15 +25,16 @@
 import SDL_types;
 import SDL_video;
 
-extern(C):
+extern (C):
 
-struct SDL_Cursor {
-	SDL_Rect area;			/* The area of the mouse cursor */
-	Sint16 hot_x, hot_y;		/* The "tip" of the cursor */
-	Uint8 *data;			/* B/W cursor data */
-	Uint8 *mask;			/* B/W cursor mask */
-	Uint8 *[2] save;			/* Place to save cursor area */
-	void /*WMcursor*/ *wm_cursor;		/* Window-manager cursor */
+struct SDL_Cursor
+{
+  SDL_Rect area; /* The area of the mouse cursor */
+  Sint16 hot_x, hot_y; /* The "tip" of the cursor */
+  Uint8* data; /* B/W cursor data */
+  Uint8* mask; /* B/W cursor mask */
+  Uint8*[2] save; /* Place to save cursor area */
+  void /*WMcursor*/ * wm_cursor; /* Window-manager cursor */
 }
 
 /* Function prototypes */
@@ -43,7 +44,7 @@ struct SDL_Cursor {
  * be tested using the SDL_BUTTON(X) macros, and x and y are set to the
  * current mouse cursor position.  You can pass NULL for either x or y.
  */
-Uint8 SDL_GetMouseState(int *x, int *y);
+Uint8 SDL_GetMouseState(int* x, int* y);
 
 /*
  * Retrieve the current state of the mouse.
@@ -51,7 +52,7 @@ Uint8 SDL_GetMouseState(int *x, int *y);
  * be tested using the SDL_BUTTON(X) macros, and x and y are set to the
  * mouse deltas since the last call to SDL_GetRelativeMouseState().
  */
-Uint8 SDL_GetRelativeMouseState(int *x, int *y);
+Uint8 SDL_GetRelativeMouseState(int* x, int* y);
 
 /*
  * Set the position of the mouse cursor (generates a mouse motion event)
@@ -61,35 +62,34 @@ void SDL_WarpMouse(Uint16 x, Uint16 y);
 /*
  * Create a cursor using the specified data and mask (in MSB format).
  * The cursor width must be a multiple of 8 bits.
- * 
+ *
  * The cursor is created in black and white according to the following:
  * data  mask    resulting pixel on screen
  *  0     1       White
  *  1     1       Black
  *  0     0       Transparent
  *  1     0       Inverted color if possible, black if not.
- * 
+ *
  * Cursors created with this function must be freed with SDL_FreeCursor().
  */
-SDL_Cursor *SDL_CreateCursor
-		(Uint8 *data, Uint8 *mask, int w, int h, int hot_x, int hot_y);
+SDL_Cursor* SDL_CreateCursor(Uint8* data, Uint8* mask, int w, int h, int hot_x, int hot_y);
 
 /*
  * Set the currently active cursor to the specified one.
- * If the cursor is currently visible, the change will be immediately 
+ * If the cursor is currently visible, the change will be immediately
  * represented on the display.
  */
-void SDL_SetCursor(SDL_Cursor *cursor);
+void SDL_SetCursor(SDL_Cursor* cursor);
 
 /*
  * Returns the currently active cursor.
  */
-SDL_Cursor * SDL_GetCursor();
+SDL_Cursor* SDL_GetCursor();
 
 /*
  * Deallocates a cursor created with SDL_CreateCursor().
  */
-void SDL_FreeCursor(SDL_Cursor *cursor);
+void SDL_FreeCursor(SDL_Cursor* cursor);
 
 /*
  * Toggle whether or not the cursor is shown on the screen.
@@ -105,12 +105,16 @@ int SDL_ShowCursor(int toggle);
    Button 2:	Middle mouse button
    Button 3:	Right mouse button
  */
-uint SDL_BUTTON(uint X) { return SDL_PRESSED << (X-1); }
-const uint SDL_BUTTON_LEFT		= 1;
-const uint SDL_BUTTON_MIDDLE	= 2;
-const uint SDL_BUTTON_RIGHT		= 3;
-const uint SDL_BUTTON_WHEELUP	= 4;
-const uint SDL_BUTTON_WHEELDOWN	= 5;
-const uint SDL_BUTTON_LMASK		= SDL_PRESSED << (SDL_BUTTON_LEFT - 1);
-const uint SDL_BUTTON_MMASK		= SDL_PRESSED << (SDL_BUTTON_MIDDLE - 1);
-const uint SDL_BUTTON_RMASK		= SDL_PRESSED << (SDL_BUTTON_RIGHT - 1);
+uint SDL_BUTTON(uint X)
+{
+  return SDL_PRESSED << (X - 1);
+}
+
+const uint SDL_BUTTON_LEFT = 1;
+const uint SDL_BUTTON_MIDDLE = 2;
+const uint SDL_BUTTON_RIGHT = 3;
+const uint SDL_BUTTON_WHEELUP = 4;
+const uint SDL_BUTTON_WHEELDOWN = 5;
+const uint SDL_BUTTON_LMASK = SDL_PRESSED << (SDL_BUTTON_LEFT - 1);
+const uint SDL_BUTTON_MMASK = SDL_PRESSED << (SDL_BUTTON_MIDDLE - 1);
+const uint SDL_BUTTON_RMASK = SDL_PRESSED << (SDL_BUTTON_RIGHT - 1);

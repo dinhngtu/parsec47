@@ -24,7 +24,7 @@
 
 import SDL_version_;
 
-extern(C):
+extern (C):
 
 /* Your application has access to a special type of event 'SDL_SYSWMEVENT',
    which contains window-manager specific information and arrives whenever
@@ -40,18 +40,20 @@ alias uint WPARAM;
 alias uint LPARAM;
 
 /* The windows custom event structure */
-struct SDL_SysWMmsg {
-	SDL_version _version;	// !!! "version" is a D keyword
-	HWND hwnd;				/* The window for the message */
-	UINT msg;				/* The type of message */
-	WPARAM wParam;			/* WORD message parameter */
-	LPARAM lParam;			/* LONG message parameter */
+struct SDL_SysWMmsg
+{
+    SDL_version _version; // !!! "version" is a D keyword
+    HWND hwnd; /* The window for the message */
+    UINT msg; /* The type of message */
+    WPARAM wParam; /* WORD message parameter */
+    LPARAM lParam; /* LONG message parameter */
 }
 
 /* The windows custom window manager information structure */
-struct SDL_SysWMinfo {
-	SDL_version _version;	// !!! "version" is a D keyword
-	HWND window;			/* The Win32 display window */
+struct SDL_SysWMinfo
+{
+    SDL_version _version; // !!! "version" is a D keyword
+    HWND window; /* The Win32 display window */
 }
 
 /* Function prototypes */
@@ -59,6 +61,6 @@ struct SDL_SysWMinfo {
  * This function gives you custom hooks into the window manager information.
  * It fills the structure pointed to by 'info' with custom information and
  * returns 1 if the function is implemented.  If it's not implemented, or
- * the version member of the 'info' structure is invalid, it returns 0. 
+ * the version member of the 'info' structure is invalid, it returns 0.
  */
-int SDL_GetWMInfo(SDL_SysWMinfo *info);
+int SDL_GetWMInfo(SDL_SysWMinfo* info);

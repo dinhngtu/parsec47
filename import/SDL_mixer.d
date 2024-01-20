@@ -26,53 +26,58 @@
 
 import SDL;
 
-extern (C) {
+extern (C)
+{
 
-/* Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
+	/* Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
  */
 	const int MIX_MAJOR_VERSION = 1;
 	const int MIX_MINOR_VERSION = 2;
 	const int MIX_PATCHLEVEL = 5;
 
-/* This function gets the version of the dynamically linked SDL_mixer library.
+	/* This function gets the version of the dynamically linked SDL_mixer library.
    it should NOT be used to fill a version structure, instead you should
    use the MIX_VERSION() macro.
 */
-	SDL_version * Mix_Linked_Version();
+	SDL_version* Mix_Linked_Version();
 
-
-/* The default mixer has 8 simultaneous mixing channels */
+	/* The default mixer has 8 simultaneous mixing channels */
 	const int MIX_CHANNELS = 8;
 
-/* Good default values for a PC soundcard */
+	/* Good default values for a PC soundcard */
 	const int MIX_DEFAULT_FREQUENCY = 22050;
-	version (LittleEndian) {
+	version (LittleEndian)
+	{
 		const int MIX_DEFAULT_FORMAT = AUDIO_S16LSB;
 	}
-	version (BigEndian) {
+	version (BigEndian)
+	{
 		const int MIX_DEFAULT_FORMAT = AUDIO_S16MSB;
 	}
 	const int MIX_DEFAULT_CHANNELS = 2;
 	const int MIX_MAX_VOLUME = 128; /* Volume of a chunk */
 
-/* The internal format for an audio chunk */
-	struct Mix_Chunk {
+	/* The internal format for an audio chunk */
+	struct Mix_Chunk
+	{
 		int allocated;
-		Uint8 *abuf;
+		Uint8* abuf;
 		Uint32 alen;
-		Uint8 volume;		/* Per-sample volume, 0-128 */
+		Uint8 volume; /* Per-sample volume, 0-128 */
 	}
 
-/* The different fading types supported */
+	/* The different fading types supported */
 	alias int Mix_Fading;
-	enum {
+	enum
+	{
 		MIX_NO_FADING,
 		MIX_FADING_OUT,
 		MIX_FADING_IN
 	}
 
-	alias int  Mix_MusicType;
-	enum {
+	alias int Mix_MusicType;
+	enum
+	{
 		MUS_NONE,
 		MUS_CMD,
 		MUS_WAV,
@@ -82,83 +87,86 @@ extern (C) {
 		MUS_MP3
 	}
 
-/* The internal format for a music chunk interpreted via mikmod */
+	/* The internal format for a music chunk interpreted via mikmod */
 	/* it's mayby enough */
-	struct Mix_Music {}
+	struct Mix_Music
+	{
+	}
 
-/* Open the mixer with a certain audio format */
+	/* Open the mixer with a certain audio format */
 	int Mix_OpenAudio(int frequency, Uint16 format, int channels,
-					  int chunksize);
+		int chunksize);
 
-/* Dynamically change the number of channels managed by the mixer.
+	/* Dynamically change the number of channels managed by the mixer.
    If decreasing the number of channels, the upper channels are
    stopped.
    This function returns the new number of allocated channels.
 */
 	int Mix_AllocateChannels(int numchans);
 
-/* Find out what the actual audio device parameters are.
+	/* Find out what the actual audio device parameters are.
    This function returns 1 if the audio has been opened, 0 otherwise.
 */
-	int Mix_QuerySpec(int *frequency,Uint16 *format,int *channels);
+	int Mix_QuerySpec(int* frequency, Uint16* format, int* channels);
 
-/* Load a wave file or a music (.mod .s3m .it .xm) file */
-	Mix_Chunk * Mix_LoadWAV_RW(SDL_RWops *src, int freesrc);
-	Mix_Chunk * Mix_LoadWAV(const(char) *file) {
+	/* Load a wave file or a music (.mod .s3m .it .xm) file */
+	Mix_Chunk* Mix_LoadWAV_RW(SDL_RWops* src, int freesrc);
+	Mix_Chunk* Mix_LoadWAV(const(char)* file)
+	{
 		return Mix_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1);
 	}
-	Mix_Music * Mix_LoadMUS(const(char) *file);
 
-/* Load a wave file of the mixer format from a memory buffer */
-	Mix_Chunk * Mix_QuickLoad_WAV(Uint8 *mem);
+	Mix_Music* Mix_LoadMUS(const(char)* file);
 
-/* Load raw audio data of the mixer format from a memory buffer */
-	Mix_Chunk * Mix_QuickLoad_RAW(Uint8 *mem, Uint32 len);
+	/* Load a wave file of the mixer format from a memory buffer */
+	Mix_Chunk* Mix_QuickLoad_WAV(Uint8* mem);
 
-/* Free an audio chunk previously loaded */
-	void Mix_FreeChunk(Mix_Chunk *chunk);
-	void Mix_FreeMusic(Mix_Music *music);
+	/* Load raw audio data of the mixer format from a memory buffer */
+	Mix_Chunk* Mix_QuickLoad_RAW(Uint8* mem, Uint32 len);
 
-/* Find out the music format of a mixer music, or the currently playing
+	/* Free an audio chunk previously loaded */
+	void Mix_FreeChunk(Mix_Chunk* chunk);
+	void Mix_FreeMusic(Mix_Music* music);
+
+	/* Find out the music format of a mixer music, or the currently playing
    music, if 'music' is NULL.
 */
-	Mix_MusicType Mix_GetMusicType(Mix_Music *music);
+	Mix_MusicType Mix_GetMusicType(Mix_Music* music);
 
-/* Set a function that is called after all mixing is performed.
+	/* Set a function that is called after all mixing is performed.
    This can be used to provide real-time visual display of the audio stream
    or add a custom mixer filter for the stream data.
 */
-	void Mix_SetPostMix(void function(void *udata, Uint8 *stream, int len) mix_func, void *arg);
+	void Mix_SetPostMix(void function(void* udata, Uint8* stream, int len) mix_func, void* arg);
 
-/* Add your own music player or additional mixer function.
+	/* Add your own music player or additional mixer function.
    If 'mix_func' is NULL, the default music player is re-enabled.
 */
-	void Mix_HookMusic(void function(void *udata, Uint8 *stream, int len) mix_func, void *arg);
+	void Mix_HookMusic(void function(void* udata, Uint8* stream, int len) mix_func, void* arg);
 
-/* Add your own callback when the music has finished playing.
+	/* Add your own callback when the music has finished playing.
    This callback is only called if the music finishes naturally.
 */
 	void Mix_HookMusicFinished(void function() music_finished);
 
-/* Get a pointer to the user data for the current music hook */
-	void * Mix_GetMusicHookData();
+	/* Get a pointer to the user data for the current music hook */
+	void* Mix_GetMusicHookData();
 
-/*
+	/*
  * Add your own callback when a channel has finished playing. NULL
- *  to disable callback. The callback may be called from the mixer's audio 
+ *  to disable callback. The callback may be called from the mixer's audio
  *  callback or it could be called as a result of Mix_HaltChannel(), etc.
- *  do not call SDL_LockAudio() from this callback; you will either be 
+ *  do not call SDL_LockAudio() from this callback; you will either be
  *  inside the audio callback, or SDL_mixer will explicitly lock the audio
  *  before calling your callback.
  */
 	void Mix_ChannelFinished(void function(int channel) channel_finished);
 
-
-/* Special Effects API by ryan c. gordon. (icculus@linuxgames.com) */
+	/* Special Effects API by ryan c. gordon. (icculus@linuxgames.com) */
 
 	const int MIX_CHANNEL_POST = -2;
 
-/* This is the format of a special effect callback:
+	/* This is the format of a special effect callback:
  *
  *   myeffect(int chan, void *stream, int len, void *udata);
  *
@@ -175,9 +183,9 @@ extern (C) {
  *
  * DO NOT EVER call SDL_LockAudio() from your callback function!
  */
-	alias void function(int chan, void *stream, int len, void *udata) Mix_EffectFunc_t;
+	alias void function(int chan, void* stream, int len, void* udata) Mix_EffectFunc_t;
 
-/*
+	/*
  * This is a callback that signifies that a channel has finished all its
  *  loops and has completed playback. This gets called if the buffer
  *  plays out normally, or if you call Mix_HaltChannel(), implicitly stop
@@ -186,10 +194,9 @@ extern (C) {
  *
  * DO NOT EVER call SDL_LockAudio() from your callback function!
  */
-	alias void function(int chan, void *udata) Mix_EffectDone_t;
+	alias void function(int chan, void* udata) Mix_EffectDone_t;
 
-
-/* Register a special effect function. At mixing time, the channel data is
+	/* Register a special effect function. At mixing time, the channel data is
  *  copied into a buffer and passed through each registered effect function.
  *  After it passes through all the functions, it is mixed into the final
  *  output stream. The copy to buffer is performed once, then each effect
@@ -228,7 +235,7 @@ extern (C) {
  *
  * After all these effects have finished processing, the callback registered
  *  through Mix_SetPostMix() runs, and then the stream goes to the audio
- *  device. 
+ *  device.
  *
  * DO NOT EVER call SDL_LockAudio() from your callback function!
  *
@@ -236,10 +243,9 @@ extern (C) {
  *  Error messages can be retrieved from Mix_GetError().
  */
 	int Mix_RegisterEffect(int chan, Mix_EffectFunc_t f,
-						   Mix_EffectDone_t d, void *arg);
+		Mix_EffectDone_t d, void* arg);
 
-
-/* You may not need to call this explicitly, unless you need to stop an
+	/* You may not need to call this explicitly, unless you need to stop an
  *  effect from processing in the middle of a chunk's playback.
  * Posteffects are never implicitly unregistered as they are for channels,
  *  but they may be explicitly unregistered through this function by
@@ -249,8 +255,7 @@ extern (C) {
  */
 	int Mix_UnregisterEffect(int channel, Mix_EffectFunc_t f);
 
-
-/* You may not need to call this explicitly, unless you need to stop all
+	/* You may not need to call this explicitly, unless you need to stop all
  *  effects from processing in the middle of a chunk's playback. Note that
  *  this will also shut off some internal effect processing, since
  *  Mix_SetPanning() and others may use this API under the hood. This is
@@ -263,10 +268,9 @@ extern (C) {
  */
 	int Mix_UnregisterAllEffects(int channel);
 
-
 	const char[] MIX_EFFECTSMAXSPEED = "MIX_EFFECTSMAXSPEED";
 
-/*
+	/*
  * These are the internally-defined mixing effects. They use the same API that
  *  effects defined in the application use, but are provided here as a
  *  convenience. Some effects can reduce their quality or use more memory in
@@ -275,8 +279,7 @@ extern (C) {
  *  Mix_OpenAudio().
  */
 
-
-/* Set the panning of a channel. The left and right channels are specified
+	/* Set the panning of a channel. The left and right channels are specified
  *  as integers between 0 and 255, quietest to loudest, respectively.
  *
  * Technically, this is just individual volume control for a sample with
@@ -303,8 +306,7 @@ extern (C) {
  */
 	int Mix_SetPanning(int channel, Uint8 left, Uint8 right);
 
-
-/* Set the position of a channel. (angle) is an integer from 0 to 360, that
+	/* Set the position of a channel. (angle) is an integer from 0 to 360, that
  *  specifies the location of the sound in relation to the listener. (angle)
  *  will be reduced as neccesary (540 becomes 180 degrees, -100 becomes 260).
  *  Angle 0 is due north, and rotates clockwise as the value increases.
@@ -343,8 +345,7 @@ extern (C) {
  */
 	int Mix_SetPosition(int channel, Sint16 angle, Uint8 distance);
 
-
-/* Set the "distance" of a channel. (distance) is an integer from 0 to 255
+	/* Set the "distance" of a channel. (distance) is an integer from 0 to 255
  *  that specifies the location of the sound in relation to the listener.
  *  Distance 0 is overlapping the listener, and 255 is as far away as possible
  *  A distance of 255 does not guarantee silence; in such a case, you might
@@ -373,8 +374,7 @@ extern (C) {
  */
 	int Mix_SetDistance(int channel, Uint8 distance);
 
-
-/* Causes a channel to reverse its stereo. This is handy if the user has his
+	/* Causes a channel to reverse its stereo. This is handy if the user has his
  *  speakers hooked up backwards, or you would like to have a minor bit of
  *  psychedelia in your sound code.  :)  Calling this function with (flip)
  *  set to non-zero reverses the chunks's usual channels. If (flip) is zero,
@@ -396,81 +396,83 @@ extern (C) {
  */
 	int Mix_SetReverseStereo(int channel, int flip);
 
-/* end of effects API. --ryan. */
+	/* end of effects API. --ryan. */
 
-
-/* Reserve the first channels (0 -> n-1) for the application, i.e. don't allocate
+	/* Reserve the first channels (0 -> n-1) for the application, i.e. don't allocate
    them dynamically to the next sample if requested with a -1 value below.
    Returns the number of reserved channels.
 */
 	int Mix_ReserveChannels(int num);
 
-/* Channel grouping functions */
+	/* Channel grouping functions */
 
-/* Attach a tag to a channel. A tag can be assigned to several mixer
+	/* Attach a tag to a channel. A tag can be assigned to several mixer
    channels, to form groups of channels.
    If 'tag' is -1, the tag is removed (actually -1 is the tag used to
    represent the group of all the channels).
    Returns true if everything was OK.
 */
 	int Mix_GroupChannel(int which, int tag);
-/* Assign several consecutive channels to a group */
+	/* Assign several consecutive channels to a group */
 	int Mix_GroupChannels(int from, int to, int tag);
-/* Finds the first available channel in a group of channels,
+	/* Finds the first available channel in a group of channels,
    returning -1 if none are available.
 */
 	int Mix_GroupAvailable(int tag);
-/* Returns the number of channels in a group. This is also a subtle
+	/* Returns the number of channels in a group. This is also a subtle
    way to get the total number of channels when 'tag' is -1
 */
 	int Mix_GroupCount(int tag);
-/* Finds the "oldest" sample playing in a group of channels */
+	/* Finds the "oldest" sample playing in a group of channels */
 	int Mix_GroupOldest(int tag);
-/* Finds the "most recent" (i.e. last) sample playing in a group of channels */
+	/* Finds the "most recent" (i.e. last) sample playing in a group of channels */
 	int Mix_GroupNewer(int tag);
 
-/* The same as above, but the sound is played at most 'ticks' milliseconds */
-	int Mix_PlayChannelTimed(int channel, Mix_Chunk *chunk, int loops, int ticks);
-/* Play an audio chunk on a specific channel.
+	/* The same as above, but the sound is played at most 'ticks' milliseconds */
+	int Mix_PlayChannelTimed(int channel, Mix_Chunk* chunk, int loops, int ticks);
+	/* Play an audio chunk on a specific channel.
    If the specified channel is -1, play on the first free channel.
    If 'loops' is greater than zero, loop the sound that many times.
    If 'loops' is -1, loop inifinitely (~65000 times).
    Returns which channel was used to play the sound.
 */
-	int Mix_PlayChannel(int channel, Mix_Chunk* chunk, int loops) {
-		return Mix_PlayChannelTimed(channel,chunk,loops,-1);
-	}
-	int Mix_PlayMusic(Mix_Music *music, int loops);
-
-/* Fade in music or a channel over "ms" milliseconds, same semantics as the "Play" functions */
-	int Mix_FadeInMusic(Mix_Music *music, int loops, int ms);
-	int Mix_FadeInMusicPos(Mix_Music *music, int loops, int ms, double position);
-	int Mix_FadeInChannelTimed(int channel, Mix_Chunk *chunk, int loops, int ms, int ticks);
-	int Mix_FadeInChannel(int channel, Mix_Chunk* chunk, int loops, int ms) {
-		return Mix_FadeInChannelTimed(channel,chunk,loops,ms,-1);
+	int Mix_PlayChannel(int channel, Mix_Chunk* chunk, int loops)
+	{
+		return Mix_PlayChannelTimed(channel, chunk, loops, -1);
 	}
 
-/* Set the volume in the range of 0-128 of a specific channel or chunk.
+	int Mix_PlayMusic(Mix_Music* music, int loops);
+
+	/* Fade in music or a channel over "ms" milliseconds, same semantics as the "Play" functions */
+	int Mix_FadeInMusic(Mix_Music* music, int loops, int ms);
+	int Mix_FadeInMusicPos(Mix_Music* music, int loops, int ms, double position);
+	int Mix_FadeInChannelTimed(int channel, Mix_Chunk* chunk, int loops, int ms, int ticks);
+	int Mix_FadeInChannel(int channel, Mix_Chunk* chunk, int loops, int ms)
+	{
+		return Mix_FadeInChannelTimed(channel, chunk, loops, ms, -1);
+	}
+
+	/* Set the volume in the range of 0-128 of a specific channel or chunk.
    If the specified channel is -1, set volume for all channels.
    Returns the original volume.
    If the specified volume is -1, just return the current volume.
 */
 	int Mix_Volume(int channel, int volume);
-	int Mix_VolumeChunk(Mix_Chunk *chunk, int volume);
+	int Mix_VolumeChunk(Mix_Chunk* chunk, int volume);
 	int Mix_VolumeMusic(int volume);
 
-/* Halt playing of a particular channel */
+	/* Halt playing of a particular channel */
 	int Mix_HaltChannel(int channel);
 	int Mix_HaltGroup(int tag);
 	int Mix_HaltMusic();
 
-/* Change the expiration delay for a particular channel.
+	/* Change the expiration delay for a particular channel.
    The sample will stop playing after the 'ticks' milliseconds have elapsed,
    or remove the expiration if 'ticks' is -1
 */
 	int Mix_ExpireChannel(int channel, int ticks);
 
-/* Halt a channel, fading it out progressively till it's silent
+	/* Halt a channel, fading it out progressively till it's silent
    The ms parameter indicates the number of milliseconds the fading
    will take.
 */
@@ -478,22 +480,22 @@ extern (C) {
 	int Mix_FadeOutGroup(int tag, int ms);
 	int Mix_FadeOutMusic(int ms);
 
-/* Query the fading status of a channel */
+	/* Query the fading status of a channel */
 	Mix_Fading Mix_FadingMusic();
 	Mix_Fading Mix_FadingChannel(int which);
 
-/* Pause/Resume a particular channel */
+	/* Pause/Resume a particular channel */
 	void Mix_Pause(int channel);
 	void Mix_Resume(int channel);
 	int Mix_Paused(int channel);
 
-/* Pause/Resume the music stream */
+	/* Pause/Resume the music stream */
 	void Mix_PauseMusic();
 	void Mix_ResumeMusic();
 	void Mix_RewindMusic();
 	int Mix_PausedMusic();
 
-/* Set the current position in the music stream.
+	/* Set the current position in the music stream.
    This returns 0 if successful, or -1 if it failed or isn't implemented.
    This function is only implemented for MOD music formats (set pattern
    order number) and for OGG music (set position in seconds), at the
@@ -501,33 +503,33 @@ extern (C) {
 */
 	int Mix_SetMusicPosition(double position);
 
-/* Check the status of a specific channel.
+	/* Check the status of a specific channel.
    If the specified channel is -1, check all channels.
 */
 	int Mix_Playing(int channel);
 	int Mix_PlayingMusic();
 
-/* Stop music and set external music playback command */
-	int Mix_SetMusicCMD(const(char) *command);
+	/* Stop music and set external music playback command */
+	int Mix_SetMusicCMD(const(char)* command);
 
-/* Synchro value is set by MikMod from modules while playing */
+	/* Synchro value is set by MikMod from modules while playing */
 	int Mix_SetSynchroValue(int value);
 	int Mix_GetSynchroValue();
 
-/* Get the Mix_Chunk currently associated with a mixer channel
+	/* Get the Mix_Chunk currently associated with a mixer channel
    Returns NULL if it's an invalid channel, or there's no chunk associated.
 */
-	Mix_Chunk * Mix_GetChunk(int channel);
+	Mix_Chunk* Mix_GetChunk(int channel);
 
-/* Close the mixer, halting all playing audio */
+	/* Close the mixer, halting all playing audio */
 	void Mix_CloseAudio();
 
-/* We'll use SDL for reporting errors */
-//	void Mix_SetError	SDL_SetError
-	char * Mix_GetError() {
+	/* We'll use SDL for reporting errors */
+	//	void Mix_SetError	SDL_SetError
+	char* Mix_GetError()
+	{
 		return SDL_GetError();
 	}
 
 }
 /* end of SDL_mixer.h ... */
-

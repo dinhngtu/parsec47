@@ -43,23 +43,23 @@ public import SDL_timer;
 public import SDL_types;
 public import SDL_video;
 
-extern(C):
+extern (C):
 
 /* As of version 0.5, SDL is loaded dynamically into the application */
 
 /* These are the flags which may be passed to SDL_Init() -- you should
    specify the subsystems which you will be using in your application.
 */
-const uint SDL_INIT_TIMER		= 0x00000001;
-const uint SDL_INIT_AUDIO		= 0x00000010;
-const uint SDL_INIT_VIDEO		= 0x00000020;
-const uint SDL_INIT_CDROM		= 0x00000100;
-const uint SDL_INIT_JOYSTICK	= 0x00000200;
-const uint SDL_INIT_NOPARACHUTE	= 0x00100000;	/* Don't catch fatal signals */
-const uint SDL_INIT_EVENTTHREAD	= 0x01000000;	/* Not supported on all OS's */
-const uint SDL_INIT_EVERYTHING	= 0x0000FFFF;
+const uint SDL_INIT_TIMER = 0x00000001;
+const uint SDL_INIT_AUDIO = 0x00000010;
+const uint SDL_INIT_VIDEO = 0x00000020;
+const uint SDL_INIT_CDROM = 0x00000100;
+const uint SDL_INIT_JOYSTICK = 0x00000200;
+const uint SDL_INIT_NOPARACHUTE = 0x00100000; /* Don't catch fatal signals */
+const uint SDL_INIT_EVENTTHREAD = 0x01000000; /* Not supported on all OS's */
+const uint SDL_INIT_EVERYTHING = 0x0000FFFF;
 
-/* This function loads the SDL dynamically linked library and initializes 
+/* This function loads the SDL dynamically linked library and initializes
  * the subsystems specified by 'flags' (and those satisfying dependencies)
  * Unless the SDL_INIT_NOPARACHUTE flag is set, it will install cleanup
  * signal handlers for some commonly ignored fatal signals (like SIGSEGV)
@@ -82,4 +82,3 @@ Uint32 SDL_WasInit(Uint32 flags);
  * dynamically linked library.  You should call it upon all exit conditions.
  */
 void SDL_Quit();
-

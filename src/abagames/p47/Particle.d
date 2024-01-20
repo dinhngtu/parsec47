@@ -19,10 +19,11 @@ import abagames.p47.P47Screen;
 /**
  * Particles.
  */
-public class Particle: LuminousActor {
- public:
+public class Particle : LuminousActor
+{
+public:
   static const float R = 1, G = 1, B = 0.5;
- private:
+private:
   static Rand rand;
   Vector pos, ppos;
   Vector vel;
@@ -30,22 +31,29 @@ public class Particle: LuminousActor {
   float lumAlp;
   int cnt;
 
-  public override Actor newActor() {
+  public override Actor newActor()
+  {
     return new Particle;
   }
 
-  public override void init(ActorInitializer ini) {
-    if (rand is null) rand = new Rand;
+  public override void init(ActorInitializer ini)
+  {
+    if (rand is null)
+      rand = new Rand;
     pos = new Vector;
     ppos = new Vector;
     vel = new Vector;
   }
 
-  public void set(Vector p, float d, float ofs, float speed) {
-    if (ofs > 0) {
+  public void set(Vector p, float d, float ofs, float speed)
+  {
+    if (ofs > 0)
+    {
       pos.x = p.x + sin(d) * ofs;
       pos.y = p.y + cos(d) * ofs;
-    } else {
+    }
+    else
+    {
       pos.x = p.x;
       pos.y = p.y;
     }
@@ -59,31 +67,39 @@ public class Particle: LuminousActor {
     isExist = true;
   }
 
-  public override void move() {
+  public override void move()
+  {
     cnt--;
-    if (cnt < 0) {
+    if (cnt < 0)
+    {
       isExist = false;
       return;
     }
-    ppos.x = pos.x; ppos.y = pos.y; pz = z;
+    ppos.x = pos.x;
+    ppos.y = pos.y;
+    pz = z;
     pos.add(vel);
     vel.mul(0.98);
     z += mz;
     lumAlp *= 0.98;
   }
 
-  public override void draw() {
+  public override void draw()
+  {
     glVertex3f(ppos.x, ppos.y, pz);
     glVertex3f(pos.x, pos.y, z);
   }
 
-  public override void drawLuminous() {
-    if (lumAlp < 0.2) return;
+  public override void drawLuminous()
+  {
+    if (lumAlp < 0.2)
+      return;
     Screen3D.setColor(R, G, B, lumAlp);
     glVertex3f(ppos.x, ppos.y, pz);
     glVertex3f(pos.x, pos.y, z);
   }
 }
 
-public class ParticleInitializer: ActorInitializer {
+public class ParticleInitializer : ActorInitializer
+{
 }

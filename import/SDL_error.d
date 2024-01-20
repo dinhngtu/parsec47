@@ -22,23 +22,23 @@
 
 /* Simple error message routines for SDL */
 
-extern(C):
+extern (C):
 
 /* Public functions */
-void SDL_SetError(char *fmt, ...);
-char * SDL_GetError();
+void SDL_SetError(char* fmt, ...);
+char* SDL_GetError();
 void SDL_ClearError();
 
 /* Private error message function - used internally */
 //#define SDL_OutOfMemory()	SDL_Error(SDL_ENOMEM)
 
 alias int SDL_errorcode;
-enum {
-	SDL_ENOMEM,
-	SDL_EFREAD,
-	SDL_EFWRITE,
-	SDL_EFSEEK,
-	SDL_LASTERROR
+enum
+{
+    SDL_ENOMEM,
+    SDL_EFREAD,
+    SDL_EFWRITE,
+    SDL_EFSEEK,
+    SDL_LASTERROR
 }
 extern void SDL_Error(SDL_errorcode code);
-

@@ -11,6 +11,7 @@ import abagames.util.Actor;
 /**
  * Actor with the luminous effect.
  */
-public class LuminousActor: Actor {
+public class LuminousActor : Actor
+{
   public abstract void drawLuminous();
 }

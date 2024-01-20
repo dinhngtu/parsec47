@@ -9,5 +9,6 @@ module abagames.util.ActorInitializer;
  * Pass initial parameters to the actor.
  */
 //public interface ActorInitializer {
-public abstract class ActorInitializer {
+public abstract class ActorInitializer
+{
 }

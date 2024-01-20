@@ -11,20 +11,23 @@ import abagames.p47.MorphBullet;
 /**
  * Bullet with params of sppedRank, shape, color, size and the vertical reverse moving.
  */
-public class P47Bullet: MorphBullet {
- public:
+public class P47Bullet : MorphBullet
+{
+public:
   float speedRank;
   int shape, color;
   float bulletSize;
   float xReverse;
 
- private:
+private:
 
-  public this(int id) {
+  public this(int id)
+  {
     super(id);
   }
 
-  public void setParam(float sr, int sh, int cl, float sz, float xr) {
+  public void setParam(float sr, int sh, int cl, float sz, float xr)
+  {
     speedRank = sr;
     shape = sh;
     color = cl;

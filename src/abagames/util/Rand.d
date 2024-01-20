@@ -12,30 +12,37 @@ import mt;
 /**
  * Random number generator.
  */
-public class Rand {
-  
-  public this() {
+public class Rand
+{
+
+  public this()
+  {
     long timer = Clock.currStdTime();
-    init_genrand(cast(uint)timer);
+    init_genrand(cast(uint) timer);
   }
 
-  public void setSeed(long n) {
-    init_genrand(cast(uint)n);
+  public void setSeed(long n)
+  {
+    init_genrand(cast(uint) n);
   }
 
-  public int nextInt(int n) {
+  public int nextInt(int n)
+  {
     return genrand_int32() % n;
   }
 
-  public int nextSignedInt(int n) {
+  public int nextSignedInt(int n)
+  {
     return genrand_int32() % (n * 2) - n;
   }
 
-  public float nextFloat(float n) {
+  public float nextFloat(float n)
+  {
     return genrand_real1() * n;
   }
 
-  public float nextSignedFloat(float n) {
+  public float nextSignedFloat(float n)
+  {
     return genrand_real1() * (n * 2) - n;
   }
 }

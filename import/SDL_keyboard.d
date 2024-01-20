@@ -23,12 +23,13 @@
 /* Include file for SDL keyboard event handling */
 
 import SDL_types;
+
 // !!! A hack! struct SDL_keysym is defined in this module,
 // !!! so we need to resolve the nameclash...
 // !!! Definitely won't work on *NIX but for now will do.
 import SDL_keysym_;
 
-extern(C):
+extern (C):
 
 /* Keysym structure
    - The scancode is hardware dependent, and should not be used by general
@@ -46,15 +47,16 @@ extern(C):
 		An international character..
 	}
  */
-struct SDL_keysym {
-	Uint8 scancode;			/* hardware specific scancode */
-	SDLKey sym;			/* SDL virtual keysym */
-	SDLMod mod;			/* current key modifiers */
-	Uint16 unicode;			/* translated character */
+struct SDL_keysym
+{
+  Uint8 scancode; /* hardware specific scancode */
+  SDLKey sym; /* SDL virtual keysym */
+  SDLMod mod; /* current key modifiers */
+  Uint16 unicode; /* translated character */
 }
 
 /* This is the mask which refers to all hotkey bindings */
-const uint SDL_ALL_HOTKEYS		= 0xFFFFFFFF;
+const uint SDL_ALL_HOTKEYS = 0xFFFFFFFF;
 
 /* Function prototypes */
 /*
@@ -73,8 +75,8 @@ int SDL_EnableUNICODE(int enable);
  * pressed, and keyboard repeat begins.
  * 'interval' is the time in ms between keyboard repeat events.
  */
-const uint SDL_DEFAULT_REPEAT_DELAY		= 500;
-const uint SDL_DEFAULT_REPEAT_INTERVAL	= 30;
+const uint SDL_DEFAULT_REPEAT_DELAY = 500;
+const uint SDL_DEFAULT_REPEAT_INTERVAL = 30;
 /*
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
@@ -87,7 +89,7 @@ int SDL_EnableKeyRepeat(int delay, int interval);
  * 	Uint8 *keystate = SDL_GetKeyState(NULL);
  *	if ( keystate[SDLK_RETURN] ) ... <RETURN> is pressed.
  */
-Uint8 * SDL_GetKeyState(int *numkeys);
+Uint8* SDL_GetKeyState(int* numkeys);
 
 /*
  * Get the current key modifier state
@@ -103,4 +105,4 @@ void SDL_SetModState(SDLMod modstate);
 /*
  * Get the name of an SDL virtual keysym
  */
-char * SDL_GetKeyName(SDLKey key);
+char* SDL_GetKeyName(SDLKey key);

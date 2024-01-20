@@ -12,10 +12,10 @@ import abagames.util.bulletml.Bullet;
 /**
  * Interface for bullet's instances manager.
  */
-public interface BulletsManager {
+public interface BulletsManager
+{
   public void addBullet(float deg, float speed);
-  public void addBullet(BulletMLState *state, float deg, float speed);
+  public void addBullet(BulletMLState* state, float deg, float speed);
   public int getTurn();
   public void killMe(Bullet bullet);
 }
-

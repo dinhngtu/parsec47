@@ -19,11 +19,13 @@ import abagames.p47.P47Bullet;
 /**
  * Bullet actor pool that works as the BulletsManager.
  */
-public class BulletActorPool: ActorPool, BulletsManager {
- private:
+public class BulletActorPool : ActorPool, BulletsManager
+{
+private:
   int cnt;
 
-  public this(int n, ActorInitializer ini) {
+  public this(int n, ActorInitializer ini)
+  {
     scope BulletActor bulletActorClass = new BulletActor;
     super(n, bulletActorClass, ini);
     Bullet.setBulletsManager(this);
@@ -31,26 +33,31 @@ public class BulletActorPool: ActorPool, BulletsManager {
     cnt = 0;
   }
 
-  public void addBullet(float deg, float speed) {
+  public void addBullet(float deg, float speed)
+  {
     BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return;
     P47Bullet rb = cast(P47Bullet) Bullet.now;
-    if (rb.isMorph) {
-      BulletMLRunner *runner = BulletMLRunner_new_parser(rb.morphParser[rb.morphIdx]);
+    if (rb.isMorph)
+    {
+      BulletMLRunner* runner = BulletMLRunner_new_parser(rb.morphParser[rb.morphIdx]);
       BulletActorPool.registFunctions(runner);
       ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed,
-	     Bullet.now.rank, 
-	     rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse,
-	     rb.morphParser, rb.morphNum, rb.morphIdx + 1, rb.morphCnt - 1);
-    } else {
-      ba.set(Bullet.now.pos.x, Bullet.now.pos.y, deg, speed, 
-	     Bullet.now.rank,
-	     rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse);
+        Bullet.now.rank,
+        rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse,
+        rb.morphParser, rb.morphNum, rb.morphIdx + 1, rb.morphCnt - 1);
+    }
+    else
+    {
+      ba.set(Bullet.now.pos.x, Bullet.now.pos.y, deg, speed,
+        Bullet.now.rank,
+        rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse);
     }
   }
 
-  public void addBullet(BulletMLState *state, float deg, float speed) {
+  public void addBullet(BulletMLState* state, float deg, float speed)
+  {
     BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return;
@@ -58,20 +65,21 @@ public class BulletActorPool: ActorPool, BulletsManager {
     registFunctions(runner);
     P47Bullet rb = cast(P47Bullet) Bullet.now;
     if (rb.isMorph)
-      ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed, 
-	     Bullet.now.rank, 
-	     rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse,
-	     rb.morphParser, rb.morphNum, rb.morphIdx, rb.morphCnt);
+      ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed,
+        Bullet.now.rank,
+        rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse,
+        rb.morphParser, rb.morphNum, rb.morphIdx, rb.morphCnt);
     else
-      ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed, 
-	     Bullet.now.rank, 
-	     rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse);
+      ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed,
+        Bullet.now.rank,
+        rb.speedRank, rb.shape, rb.color, rb.bulletSize, rb.xReverse);
   }
 
-  public BulletActor addBullet(BulletMLRunner *runner, 
-			       float x, float y, float deg, float speed,
-			       float rank, 
-			       float speedRank, int shape, int color, float size, float xReverse) {
+  public BulletActor addBullet(BulletMLRunner* runner,
+    float x, float y, float deg, float speed,
+    float rank,
+    float speedRank, int shape, int color, float size, float xReverse)
+  {
     BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return null;
@@ -80,12 +88,13 @@ public class BulletActorPool: ActorPool, BulletsManager {
     return ba;
   }
 
-  public BulletActor addBullet(BulletMLParser *parser,
-			       BulletMLRunner *runner, 
-			       float x, float y, float deg, float speed,
-			       float rank,
-			       float speedRank, int shape, int color, float size, float xReverse) {
-    BulletActor ba = 
+  public BulletActor addBullet(BulletMLParser* parser,
+    BulletMLRunner* runner,
+    float x, float y, float deg, float speed,
+    float rank,
+    float speedRank, int shape, int color, float size, float xReverse)
+  {
+    BulletActor ba =
       addBullet(runner, x, y, deg, speed, rank, speedRank, shape, color, size, xReverse);
     if (!ba)
       return null;
@@ -93,44 +102,51 @@ public class BulletActorPool: ActorPool, BulletsManager {
     return ba;
   }
 
-  public BulletActor addBullet(BulletMLParser *parser,
-			       BulletMLRunner *runner,
-			       float x, float y, float deg, float speed, 
-			       float rank,
-			       float speedRank, int shape, int color, float size, float xReverse,
-			       BulletMLParser *[]morph, int morphNum, int morphCnt) {
+  public BulletActor addBullet(BulletMLParser* parser,
+    BulletMLRunner* runner,
+    float x, float y, float deg, float speed,
+    float rank,
+    float speedRank, int shape, int color, float size, float xReverse,
+    BulletMLParser*[] morph, int morphNum, int morphCnt)
+  {
     BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return null;
-    ba.set(runner, x, y, deg, speed, rank, 
-	   speedRank, shape, color, size, xReverse,
-	   morph, morphNum, 0, morphCnt);
+    ba.set(runner, x, y, deg, speed, rank,
+      speedRank, shape, color, size, xReverse,
+      morph, morphNum, 0, morphCnt);
     ba.setTop(parser);
     return ba;
   }
 
-  public override void move() {
+  public override void move()
+  {
     super.move();
     cnt++;
   }
 
-  public int getTurn() {
+  public int getTurn()
+  {
     return cnt;
   }
-  
-  public void killMe(Bullet bullet) {
+
+  public void killMe(Bullet bullet)
+  {
     assert((cast(BulletActor) actor[bullet.id]).bullet.id == bullet.id);
     (cast(BulletActor) actor[bullet.id]).remove();
   }
 
-  public override void clear() {
-    for (int i = 0; i < actor.length; i++) {
+  public override void clear()
+  {
+    for (int i = 0; i < actor.length; i++)
+    {
       if (actor[i].isExist)
-	(cast(BulletActor) actor[i]).remove();
+        (cast(BulletActor) actor[i]).remove();
     }
   }
 
-  public static void registFunctions(BulletMLRunner* runner) {
+  public static void registFunctions(BulletMLRunner* runner)
+  {
     BulletMLRunner_set_getBulletDirection(runner, &getBulletDirection_);
     BulletMLRunner_set_getAimDirection(runner, &getAimDirectionWithXRev_);
     BulletMLRunner_set_getBulletSpeed(runner, &getBulletSpeed_);
@@ -151,8 +167,10 @@ public class BulletActorPool: ActorPool, BulletsManager {
   }
 }
 
-extern (C) {
-  double getAimDirectionWithXRev_(BulletMLRunner* r) {
+extern (C)
+{
+  double getAimDirectionWithXRev_(BulletMLRunner* r)
+  {
     Vector b = Bullet.now.pos;
     Vector t = Bullet.target;
     float xrev = (cast(P47Bullet) Bullet.now).xReverse;

@@ -42,19 +42,26 @@ import abagames.p47.SoundManager;
 /**
  * Manage the game status and actor pools.
  */
-public class P47GameManager: GameManager {
- public:
+public class P47GameManager : GameManager
+{
+public:
   bool nowait = false;
   int difficulty, parsecSlot;
-  static enum {
-    ROLL, LOCK,
+  static enum
+  {
+    ROLL,
+    LOCK,
   }
   int mode;
-  static enum {
-    TITLE, IN_GAME, GAMEOVER, PAUSE
+  static enum
+  {
+    TITLE,
+    IN_GAME,
+    GAMEOVER,
+    PAUSE
   }
   int state;
- private:
+private:
   Pad pad;
   const int ENEMY_MAX = 32;
   P47PrefManager prefManager;
@@ -87,7 +94,8 @@ public class P47GameManager: GameManager {
   Title title;
 
   // Initialize actor pools, load BGMs/SEs and textures.
-  public override void init() {
+  public override void init()
+  {
     pad = cast(Pad) input;
     prefManager = cast(P47PrefManager) abstPrefManager;
     screen = cast(P47Screen) abstScreen;
@@ -119,8 +127,7 @@ public class P47GameManager: GameManager {
     scope LockInitializer li = new LockInitializer(ship, field, this);
     locks = new ActorPool(4, lockClass, li);
     scope Enemy enemyClass = new Enemy;
-    scope EnemyInitializer ei = new EnemyInitializer
-      (field, bullets, shots, rolls, locks, ship, this);
+    scope EnemyInitializer ei = new EnemyInitializer(field, bullets, shots, rolls, locks, ship, this);
     enemies = new ActorPool(ENEMY_MAX, enemyClass, ei);
     Bonus.init();
     scope Bonus bonusClass = new Bonus;
@@ -137,11 +144,13 @@ public class P47GameManager: GameManager {
     SoundManager.init(this);
   }
 
-  public override void start() {
+  public override void start()
+  {
     startTitle();
   }
 
-  public override void close() {
+  public override void close()
+  {
     barrageManager.unloadBulletMLs();
     title.close();
     SoundManager.close();
@@ -151,21 +160,25 @@ public class P47GameManager: GameManager {
     BulletActor.deleteDisplayLists();
   }
 
-  public void addScore(int sc) {
+  public void addScore(int sc)
+  {
     score += sc;
-    if (score > extendScore) {
-      if (left < LEFT_MAX) {
-	SoundManager.playSe(SoundManager.EXTEND);
-	left++;
+    if (score > extendScore)
+    {
+      if (left < LEFT_MAX)
+      {
+        SoundManager.playSe(SoundManager.EXTEND);
+        left++;
       }
       if (extendScore <= FIRST_EXTEND)
-	extendScore = EVERY_EXTEND;
+        extendScore = EVERY_EXTEND;
       else
-	extendScore += EVERY_EXTEND;
+        extendScore += EVERY_EXTEND;
     }
   }
 
-  public void shipDestroyed() {
+  public void shipDestroyed()
+  {
     if (mode == ROLL)
       releaseRoll();
     else
@@ -176,91 +189,107 @@ public class P47GameManager: GameManager {
       startGameover();
   }
 
-  public void addParticle(Vector pos, float deg, float ofs, float speed) {
+  public void addParticle(Vector pos, float deg, float ofs, float speed)
+  {
     Particle pt = cast(Particle) particles.getInstanceForced();
     assert(pt);
     pt.set(pos, deg, ofs, speed);
   }
 
-  public void addFragments(int n, float x1, float y1, float x2, float y2, float z, 
-			   float speed, float deg) {
-    for (int i = 0; i < n; i++) {
+  public void addFragments(int n, float x1, float y1, float x2, float y2, float z,
+    float speed, float deg)
+  {
+    for (int i = 0; i < n; i++)
+    {
       Fragment ft = cast(Fragment) fragments.getInstanceForced();
       assert(ft);
       ft.set(x1, y1, x2, y2, z, speed, deg);
     }
   }
 
-  public void addEnemy(Vector pos, float d, EnemyType type, BulletMLParser *moveParser) {
+  public void addEnemy(Vector pos, float d, EnemyType type, BulletMLParser* moveParser)
+  {
     Enemy en = cast(Enemy) enemies.getInstance();
     if (!en)
       return;
     en.set(pos, d, type, moveParser);
   }
 
-  public void clearBullets() {
-    for (int i = 0; i < bullets.actor.length; i++) {
+  public void clearBullets()
+  {
+    for (int i = 0; i < bullets.actor.length; i++)
+    {
       if (!bullets.actor[i].isExist)
-	continue;
+        continue;
       (cast(BulletActor) bullets.actor[i]).toRetro();
     }
   }
 
-  public void addBoss(Vector pos, float d, EnemyType type) {
+  public void addBoss(Vector pos, float d, EnemyType type)
+  {
     Enemy en = cast(Enemy) enemies.getInstance();
     if (!en)
       return;
     en.setBoss(pos, d, type);
   }
 
-  public void addShot(Vector pos, float deg) {
+  public void addShot(Vector pos, float deg)
+  {
     Shot shot = cast(Shot) shots.getInstance();
     if (!shot)
       return;
     shot.set(pos, deg);
   }
 
-  public void addRoll() {
+  public void addRoll()
+  {
     Roll roll = cast(Roll) rolls.getInstance();
     if (!roll)
       return;
     roll.set();
   }
 
-  public void addLock() {
+  public void addLock()
+  {
     Lock lock = cast(Lock) locks.getInstance();
     if (!lock)
       return;
     lock.set();
   }
 
-  public void releaseRoll() {
-    for (int i = 0; i < rolls.actor.length; i++) {
+  public void releaseRoll()
+  {
+    for (int i = 0; i < rolls.actor.length; i++)
+    {
       if (!rolls.actor[i].isExist)
-	continue;
+        continue;
       (cast(Roll) rolls.actor[i]).released = true;
     }
   }
 
-  public void releaseLock() {
-    for (int i = 0; i < locks.actor.length; i++) {
+  public void releaseLock()
+  {
+    for (int i = 0; i < locks.actor.length; i++)
+    {
       if (!locks.actor[i].isExist)
-	continue;
+        continue;
       (cast(Lock) locks.actor[i]).released = true;
     }
   }
 
-
-  public void addBonus(Vector pos, Vector ofs, int num) {
-    for (int i = 0; i < num; i++) {
+  public void addBonus(Vector pos, Vector ofs, int num)
+  {
+    for (int i = 0; i < num; i++)
+    {
       Bonus bonus = cast(Bonus) bonuses.getInstance();
       if (!bonus)
-	return;
+        return;
       bonus.set(pos, ofs);
     }
   }
 
-  public void setBossShieldMeter(int bs, int s1, int s2, int s3, int s4, float r) {
+  public void setBossShieldMeter(int bs, int s1, int s2, int s3, int s4, float r)
+  {
     r *= 0.7;
     bossShield = cast(int)(bs * r);
     bossWingShield[0] = cast(int)(s1 * r);
@@ -270,18 +299,27 @@ public class P47GameManager: GameManager {
   }
 
   // Difficulty.
-  public enum {
-    PRACTICE, NORMAL, HARD, EXTREME, QUIT
+  public enum
+  {
+    PRACTICE,
+    NORMAL,
+    HARD,
+    EXTREME,
+    QUIT
   }
 
-  public void startStage(int difficulty, int parsecSlot, int startParsec, int mode) {
+  public void startStage(int difficulty, int parsecSlot, int startParsec, int mode)
+  {
     enemies.clear();
     bullets.clear();
     this.difficulty = difficulty;
     this.parsecSlot = parsecSlot;
     this.mode = mode;
     int stageType = rand.nextInt(99999);
-    switch (difficulty) { default: break;
+    switch (difficulty)
+    {
+    default:
+      break;
     case PRACTICE:
       stageManager.setRank(1, 4, startParsec, stageType);
       ship.setSpeedRate(0.7);
@@ -310,20 +348,23 @@ public class P47GameManager: GameManager {
     }
   }
 
-  private void initShipState() {
+  private void initShipState()
+  {
     left = 2;
     score = 0;
     extendScore = FIRST_EXTEND;
     ship.start();
   }
 
-  private void startInGame() {
+  private void startInGame()
+  {
     state = IN_GAME;
     initShipState();
     startStage(difficulty, parsecSlot, title.getStartParsec(difficulty, parsecSlot), mode);
   }
 
-  private void startTitle() {
+  private void startTitle()
+  {
     state = TITLE;
     title.start();
     initShipState();
@@ -334,7 +375,8 @@ public class P47GameManager: GameManager {
     Sound.stopMusic();
   }
 
-  private void startGameover() {
+  private void startGameover()
+  {
     state = GAMEOVER;
     bonuses.clear();
     shots.clear();
@@ -350,22 +392,26 @@ public class P47GameManager: GameManager {
     Sound.fadeMusic();
   }
 
-  private void startPause() {
+  private void startPause()
+  {
     state = PAUSE;
     pauseCnt = 0;
   }
 
-  private void resumePause() {
+  private void resumePause()
+  {
     state = IN_GAME;
   }
 
-  private void stageMove() {
+  private void stageMove()
+  {
     stageManager.move();
   }
 
   private bool pPrsd = true;
 
-  private void inGameMove() {
+  private void inGameMove()
+  {
     stageMove();
     field.move();
     ship.move();
@@ -381,53 +427,72 @@ public class P47GameManager: GameManager {
     particles.move();
     fragments.move();
     moveScreenShake();
-    if (pad.keys[SDLK_p] == SDL_PRESSED) {
-      if (!pPrsd) {
-	pPrsd = true;
-	startPause();
+    if (pad.keys[SDLK_p] == SDL_PRESSED)
+    {
+      if (!pPrsd)
+      {
+        pPrsd = true;
+        startPause();
       }
-    } else {
+    }
+    else
+    {
       pPrsd = false;
     }
-    if (!nowait) {
+    if (!nowait)
+    {
       // Intentional slowdown when the total speed of bullets is over SLOWDOWN_START_BULLETS_SPEED
-      if (BulletActor.totalBulletsSpeed > SLOWDOWN_START_BULLETS_SPEED[mode]) {
-	float sm = BulletActor.totalBulletsSpeed / SLOWDOWN_START_BULLETS_SPEED[mode];
-	if (sm > 1.75)
-	  sm = 1.75;
-	interval += (sm * mainLoop.INTERVAL_BASE - interval) * 0.1;
-	mainLoop.interval = cast(int)(interval);
-      } else {
-	interval += (mainLoop.INTERVAL_BASE - interval) * 0.08;
-	mainLoop.interval = cast(int)(interval);
+      if (BulletActor.totalBulletsSpeed > SLOWDOWN_START_BULLETS_SPEED[mode])
+      {
+        float sm = BulletActor.totalBulletsSpeed / SLOWDOWN_START_BULLETS_SPEED[mode];
+        if (sm > 1.75)
+          sm = 1.75;
+        interval += (sm * mainLoop.INTERVAL_BASE - interval) * 0.1;
+        mainLoop.interval = cast(int)(interval);
+      }
+      else
+      {
+        interval += (mainLoop.INTERVAL_BASE - interval) * 0.08;
+        mainLoop.interval = cast(int)(interval);
       }
     }
   }
 
   private bool btnPrsd = true;
 
-  private void titleMove() {
+  private void titleMove()
+  {
     title.move();
-    if (cnt <= 8) {
+    if (cnt <= 8)
+    {
       btnPrsd = true;
-    } else {
+    }
+    else
+    {
       int btn = pad.getButtonState();
-      if (btn & Pad.PAD_BUTTON1) {
-	if (!btnPrsd) {
-	  title.setStatus();
-	  if (difficulty >= P47PrefManager.DIFFICULTY_NUM)
-	    mainLoop.breakLoop();
-	  else
-	    startInGame();
-	  return;
-	}
-      } else if (btn & Pad.PAD_BUTTON2) {
-	if (!btnPrsd) {
-	  title.changeMode();
-	  btnPrsd = true;
-	}
-      } else {
-	btnPrsd = false;
+      if (btn & Pad.PAD_BUTTON1)
+      {
+        if (!btnPrsd)
+        {
+          title.setStatus();
+          if (difficulty >= P47PrefManager.DIFFICULTY_NUM)
+            mainLoop.breakLoop();
+          else
+            startInGame();
+          return;
+        }
+      }
+      else if (btn & Pad.PAD_BUTTON2)
+      {
+        if (!btnPrsd)
+        {
+          title.changeMode();
+          btnPrsd = true;
+        }
+      }
+      else
+      {
+        btnPrsd = false;
       }
     }
     stageMove();
@@ -436,23 +501,33 @@ public class P47GameManager: GameManager {
     bullets.move();
   }
 
-  private void gameoverMove() {
+  private void gameoverMove()
+  {
     bool gotoNextState = false;
-    if (cnt <= 64) {
+    if (cnt <= 64)
+    {
       btnPrsd = true;
-    } else {
-      if (pad.getButtonState() & (Pad.PAD_BUTTON1 | Pad.PAD_BUTTON2)) {
-	if (!btnPrsd)
-	  gotoNextState = true;
-      } else {
-	btnPrsd = false;
+    }
+    else
+    {
+      if (pad.getButtonState() & (Pad.PAD_BUTTON1 | Pad.PAD_BUTTON2))
+      {
+        if (!btnPrsd)
+          gotoNextState = true;
+      }
+      else
+      {
+        btnPrsd = false;
       }
     }
-    if (cnt > 64 && gotoNextState) {
-	startTitle();
-    } else if (cnt > 500) {
-	startTitle();
-    } 
+    if (cnt > 64 && gotoNextState)
+    {
+      startTitle();
+    }
+    else if (cnt > 500)
+    {
+      startTitle();
+    }
     field.move();
     enemies.move();
     bullets.move();
@@ -460,24 +535,32 @@ public class P47GameManager: GameManager {
     fragments.move();
   }
 
-  private void pauseMove() {
+  private void pauseMove()
+  {
     pauseCnt++;
-    if (pad.keys[SDLK_p] == SDL_PRESSED) {
-      if (!pPrsd) {
-	pPrsd = true;
-	resumePause();
+    if (pad.keys[SDLK_p] == SDL_PRESSED)
+    {
+      if (!pPrsd)
+      {
+        pPrsd = true;
+        resumePause();
       }
-    } else {
+    }
+    else
+    {
       pPrsd = false;
     }
   }
 
-  public override void move() {
-    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED) {
+  public override void move()
+  {
+    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED)
+    {
       mainLoop.breakLoop();
       return;
     }
-    switch (state) {
+    switch (state)
+    {
     case IN_GAME:
       inGameMove();
       break;
@@ -495,7 +578,8 @@ public class P47GameManager: GameManager {
     cnt++;
   }
 
-  private void inGameDraw() {
+  private void inGameDraw()
+  {
     field.draw();
     P47Screen.setRetroColor(0.2, 0.7, 0.5, 1);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -520,13 +604,15 @@ public class P47GameManager: GameManager {
     bullets.draw();
   }
 
-  private void titleDraw() {
+  private void titleDraw()
+  {
     field.draw();
     enemies.draw();
     bullets.draw();
   }
 
-  private void gameoverDraw() {
+  private void gameoverDraw()
+  {
     field.draw();
     Screen3D.setColor(Particle.R, Particle.G, Particle.B, 1);
     glBegin(GL_LINES);
@@ -539,24 +625,28 @@ public class P47GameManager: GameManager {
     bullets.draw();
   }
 
-  private void inGameDrawLuminous() {
+  private void inGameDrawLuminous()
+  {
     glBegin(GL_LINES);
     particles.drawLuminous();
     fragments.drawLuminous();
     glEnd();
   }
 
-  private void titleDrawLuminous() {
+  private void titleDrawLuminous()
+  {
   }
 
-  private void gameoverDrawLuminous() {
+  private void gameoverDrawLuminous()
+  {
     glBegin(GL_LINES);
     particles.drawLuminous();
     fragments.drawLuminous();
     glEnd();
   }
 
-  private void drawBoard(int x, int y, int width, int height) {
+  private void drawBoard(int x, int y, int width, int height)
+  {
     glColor4f(0, 0, 0, 1);
     glBegin(GL_QUADS);
     glVertex2f(x, y);
@@ -566,19 +656,22 @@ public class P47GameManager: GameManager {
     glEnd();
   }
 
-  private void drawSideBoards() {
+  private void drawSideBoards()
+  {
     glDisable(GL_BLEND);
     drawBoard(0, 0, 160, 480);
     drawBoard(480, 0, 160, 480);
     glEnable(GL_BLEND);
   }
 
-  private void drawScore() {
+  private void drawScore()
+  {
     LetterRender.drawNum(score, 120, 28, 25, LetterRender.TO_UP);
     LetterRender.drawNum(Bonus.bonusScore, 24, 20, 12, LetterRender.TO_UP);
   }
 
-  public void drawLeft() {
+  public void drawLeft()
+  {
     if (left < 0)
       return;
     LetterRender.drawString("LEFT", 520, 260, 25, LetterRender.TO_DOWN);
@@ -587,7 +680,8 @@ public class P47GameManager: GameManager {
     LetterRender.changeColor(LetterRender.WHITE);
   }
 
-  private void drawParsec() {
+  private void drawParsec()
+  {
     int ps = stageManager.parsec;
     if (ps < 10)
       LetterRender.drawNum(stageManager.parsec, 600, 26, 25, LetterRender.TO_DOWN);
@@ -597,7 +691,8 @@ public class P47GameManager: GameManager {
       LetterRender.drawNum(stageManager.parsec, 600, 110, 25, LetterRender.TO_DOWN);
   }
 
-  private void drawBox(int x, int y, int w, int h) {
+  private void drawBox(int x, int y, int w, int h)
+  {
     if (w <= 0)
       return;
     Screen3D.setColor(1, 1, 1, 0.5);
@@ -606,49 +701,60 @@ public class P47GameManager: GameManager {
     P47Screen.drawBoxLine(x, y, w, h);
   }
 
-  private void drawBossShieldMeter() {
+  private void drawBossShieldMeter()
+  {
     drawBox(165, 6, bossShield, 6);
     int y = 24;
-    for (int i = 0; i < BOSS_WING_NUM; i++) {
-      switch (i % 2) { default: break;
+    for (int i = 0; i < BOSS_WING_NUM; i++)
+    {
+      switch (i % 2)
+      {
+      default:
+        break;
       case 0:
-	drawBox(165, y, bossWingShield[i], 6);
-	break;
+        drawBox(165, y, bossWingShield[i], 6);
+        break;
       case 1:
-	drawBox(475 - bossWingShield[i], y, bossWingShield[i], 6);
-	y += 12;
-	break;
+        drawBox(475 - bossWingShield[i], y, bossWingShield[i], 6);
+        y += 12;
+        break;
       }
     }
   }
 
-  private void drawSideInfo() {
+  private void drawSideInfo()
+  {
     drawSideBoards();
     drawScore();
     drawLeft();
     drawParsec();
   }
 
-  private void inGameDrawStatus() {
+  private void inGameDrawStatus()
+  {
     drawSideInfo();
     if (stageManager.bossSection)
       drawBossShieldMeter();
   }
 
-  private void titleDrawStatus() {
+  private void titleDrawStatus()
+  {
     drawSideBoards();
     drawScore();
     title.draw();
   }
 
-  private void gameoverDrawStatus() {
+  private void gameoverDrawStatus()
+  {
     drawSideInfo();
-    if (cnt > 64) {
+    if (cnt > 64)
+    {
       LetterRender.drawString("GAME OVER", 220, 200, 15, LetterRender.TO_RIGHT);
     }
   }
 
-  private void pauseDrawStatus() {
+  private void pauseDrawStatus()
+  {
     drawSideInfo();
     if ((pauseCnt % 60) < 30)
       LetterRender.drawString("PAUSE", 280, 220, 12, LetterRender.TO_RIGHT);
@@ -657,36 +763,43 @@ public class P47GameManager: GameManager {
   private int screenShakeCnt;
   private float screenShakeIntense;
 
-  public void setScreenShake(int cnt, float intense) {
+  public void setScreenShake(int cnt, float intense)
+  {
     screenShakeCnt = cnt;
     screenShakeIntense = intense;
   }
 
-  private void moveScreenShake() {
+  private void moveScreenShake()
+  {
     if (screenShakeCnt > 0)
       screenShakeCnt--;
   }
 
-  private void setEyepos() {
+  private void setEyepos()
+  {
     float x = 0, y = 0;
-    if (screenShakeCnt > 0) {
+    if (screenShakeCnt > 0)
+    {
       x = rand.nextSignedFloat(screenShakeIntense * (screenShakeCnt + 10));
       y = rand.nextSignedFloat(screenShakeIntense * (screenShakeCnt + 10));
     }
     glTranslatef(x, y, -field.eyeZ);
   }
 
-  public override void draw() {
+  public override void draw()
+  {
     SDL_Event e = mainLoop.event;
-    if (e.type == SDL_VIDEORESIZE) {
+    if (e.type == SDL_VIDEORESIZE)
+    {
       SDL_ResizeEvent re = e.resize;
       if (re.w > 150 && re.h > 100)
-	screen.resized(re.w, re.h);
+        screen.resized(re.w, re.h);
     }
     screen.startRenderToTexture();
     glPushMatrix();
     setEyepos();
-    switch (state) {
+    switch (state)
+    {
     case IN_GAME:
     case PAUSE:
       inGameDrawLuminous();
@@ -705,7 +818,8 @@ public class P47GameManager: GameManager {
     screen.clear();
     glPushMatrix();
     setEyepos();
-    switch (state) {
+    switch (state)
+    {
     case IN_GAME:
     case PAUSE:
       inGameDraw();
@@ -723,7 +837,8 @@ public class P47GameManager: GameManager {
     screen.drawLuminous();
 
     screen.viewOrthoFixed();
-    switch (state) {
+    switch (state)
+    {
     case IN_GAME:
       inGameDrawStatus();
       break;

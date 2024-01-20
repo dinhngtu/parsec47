@@ -12,10 +12,11 @@ import abagames.util.bulletml.Bullet;
 /**
  * Bullet with the bulletsmorph.
  */
-public class MorphBullet: Bullet {
- public:
+public class MorphBullet : Bullet
+{
+public:
   static const int MORPH_MAX = 8;
-  BulletMLParser *[MORPH_MAX] morphParser;
+  BulletMLParser*[MORPH_MAX] morphParser;
   int morphNum;
   int morphIdx;
   int morphCnt;
@@ -23,19 +24,23 @@ public class MorphBullet: Bullet {
   int baseMorphCnt;
   bool isMorph;
 
-  public this(int id) {
+  public this(int id)
+  {
     super(id);
   }
 
-  public void setMorph(BulletMLParser *[] mrp, int num, int idx, int cnt) {
-    if (cnt <= 0) {
+  public void setMorph(BulletMLParser*[] mrp, int num, int idx, int cnt)
+  {
+    if (cnt <= 0)
+    {
       isMorph = false;
       return;
     }
     isMorph = true;
     baseMorphCnt = morphCnt = cnt;
     morphNum = num;
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < num; i++)
+    {
       morphParser[i] = mrp[i];
     }
     morphIdx = idx;
@@ -44,7 +49,8 @@ public class MorphBullet: Bullet {
     baseMorphIdx = morphIdx;
   }
 
-  public void resetMorph() {
+  public void resetMorph()
+  {
     morphIdx = baseMorphIdx;
     morphCnt = baseMorphCnt;
   }

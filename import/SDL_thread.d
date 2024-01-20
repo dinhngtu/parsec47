@@ -20,7 +20,7 @@
     slouken@devolution.com
 */
 
-/* Header for the SDL thread management routines 
+/* Header for the SDL thread management routines
 
 	These are independent of the other SDL routines.
 */
@@ -28,13 +28,15 @@
 import SDL_types;
 import SDL_mutex;
 
-extern(C):
+extern (C):
 
 /* The SDL thread structure, defined in SDL_thread.c */
-struct SDL_Thread { }
+struct SDL_Thread
+{
+}
 
 /* Create a thread */
-SDL_Thread * SDL_CreateThread(int function(void *) fn, void *data);
+SDL_Thread* SDL_CreateThread(int function(void*) fn, void* data);
 
 /* Get the 32-bit thread identifier for the current thread */
 Uint32 SDL_ThreadID();
@@ -42,13 +44,13 @@ Uint32 SDL_ThreadID();
 /* Get the 32-bit thread identifier for the specified thread,
    equivalent to SDL_ThreadID() if the specified thread is NULL.
  */
-Uint32 SDL_GetThreadID(SDL_Thread *thread);
+Uint32 SDL_GetThreadID(SDL_Thread* thread);
 
 /* Wait for a thread to finish.
    The return code for the thread function is placed in the area
    pointed to by 'status', if 'status' is not NULL.
  */
-void SDL_WaitThread(SDL_Thread *thread, int *status);
+void SDL_WaitThread(SDL_Thread* thread, int* status);
 
 /* Forcefully kill a thread without worrying about its state */
-void SDL_KillThread(SDL_Thread *thread);
+void SDL_KillThread(SDL_Thread* thread);

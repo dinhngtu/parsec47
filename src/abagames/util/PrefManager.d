@@ -9,7 +9,8 @@ module abagames.util.PrefManager;
  * Save/load the game preference(ex) high-score).
  */
 //public interface PrefManager {
-public abstract class PrefManager {
+public abstract class PrefManager
+{
   public void save();
   public void load();
 }

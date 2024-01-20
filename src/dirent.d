@@ -1,6 +1,7 @@
 import std.string;
 
-extern (C) {
+extern (C)
+{
 	alias void DIR;
 	alias void dirent;
 	DIR* opendir(const(char)* name);

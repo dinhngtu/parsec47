@@ -14,15 +14,19 @@ import abagames.p47.LuminousActor;
 /**
  * Actor pool for the LuminousActor.
  */
-public class LuminousActorPool: ActorPool {
-  public this(int n, Actor act, ActorInitializer ini) {
+public class LuminousActorPool : ActorPool
+{
+  public this(int n, Actor act, ActorInitializer ini)
+  {
     super(n, act, ini);
   }
 
-  public void drawLuminous() {
-    for (int i = 0; i < actor.length; i++) {
+  public void drawLuminous()
+  {
+    for (int i = 0; i < actor.length; i++)
+    {
       if (actor[i].isExist)
-	(cast(LuminousActor) actor[i]).drawLuminous();
+        (cast(LuminousActor) actor[i]).drawLuminous();
     }
   }
 }
