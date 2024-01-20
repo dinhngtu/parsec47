@@ -28,6 +28,8 @@ public class Screen3D: Screen {
 
  private:
 
+  static Uint32 videoFlags;
+
   protected abstract void init();
   protected abstract void close();
 
@@ -42,7 +44,6 @@ public class Screen3D: Screen {
 	"Unable to initialize SDL: " ~ std.string.toString(SDL_GetError()));
     }
     // Create an OpenGL screen.
-    Uint32 videoFlags;
     if (windowMode) {
       videoFlags = SDL_OPENGL | SDL_RESIZABLE;
     } else {
@@ -61,6 +62,11 @@ public class Screen3D: Screen {
   // Reset viewport when the screen is resized.
 
   private void screenResized() {
+    if (SDL_SetVideoMode(width, height, 0, videoFlags) == null) {
+      throw new Exception
+        ("Unable to resize SDL screen: " ~ std.string.toString(SDL_GetError()));
+    }
+
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
