@@ -217,7 +217,7 @@ public class EnemyType {
   }
 
   private void createEnemyColor() {
-    switch (ect) {
+    switch (ect) { default: break;
     case 0:
       er = 1;
       eg = rand.nextFloat(0.7) + 0.3;
@@ -267,7 +267,7 @@ public class EnemyType {
     bodyShapePos[3].x = -x2;
     bodyShapePos[3].y = -y2;
     retroSize = enemySize[size][4];
-    switch (size) {
+    switch (size) { default: break;
     case SMALL:
     case MIDDLE:
     case MIDDLEBOSS:
@@ -309,7 +309,7 @@ public class EnemyType {
 	  md = rand.nextFloat(std.math.PI / 2) + std.math.PI / 4 * 3;
 	mpx = px / 2 + sin(md) * (enemySize[size][8] / 2 + rand.nextFloat(enemySize[size][8]/2));
 	mpy = py / 2 + cos(md) * (enemySize[size][8] / 2 + rand.nextFloat(enemySize[size][8]/2));
-	switch (size) {
+	switch (size) { default: break;
 	case SMALL:
 	case MIDDLE:
 	case LARGE:
@@ -335,7 +335,7 @@ public class EnemyType {
 	    collisionSize.y = cpy;
 	}
       }
-      switch (wrl) {
+      switch (wrl) { default: break;
       case 1:
 	bt.wingShapePos[0].x = px / 4 * wrl;
 	bt.wingShapePos[0].y = py / 4;
@@ -441,7 +441,7 @@ public class EnemyType {
     setBarrageType(br, BarrageManager.MIDDLE, mode);
     float cr, sr;
     if (mode == ROLL) {
-      switch (rand.nextInt(6)) {
+      switch (rand.nextInt(6)) { default: break;
       case 0:
       case 1:
 	cr = rank / 3 * 2;
@@ -459,7 +459,7 @@ public class EnemyType {
 	break;
       }
     } else {
-      switch (rand.nextInt(6)) {
+      switch (rand.nextInt(6)) { default: break;
       case 0:
       case 1:
 	cr = rank / 5;
@@ -502,7 +502,7 @@ public class EnemyType {
     setBarrageType(br, BarrageManager.LARGE, mode);
     float cr, sr1, sr2;
     if (mode == ROLL) {
-      switch (rand.nextInt(9)) {
+      switch (rand.nextInt(9)) { default: break;
       case 0:
       case 1:
       case 2:
@@ -529,7 +529,7 @@ public class EnemyType {
 	break;
       }
     } else {
-      switch (rand.nextInt(9)) {
+      switch (rand.nextInt(9)) { default: break;
       case 0:
 	cr = rank / 4 * 3;
 	sr1 = sr2 = 0;
@@ -587,7 +587,7 @@ public class EnemyType {
       Barrage br = barrage[i];
       setBarrageType(br, BarrageManager.LARGE, mode);
       float cr, sr;
-      switch (rand.nextInt(3)) {
+      switch (rand.nextInt(3)) { default: break;
       case 0:
 	cr = rank;
 	sr = 0;
@@ -625,7 +625,7 @@ public class EnemyType {
       Barrage br = barrage[i];
       setBarrageType(br, BarrageManager.LARGE, mode);
       float cr, sr1, sr2;
-      switch (rand.nextInt(3)) {
+      switch (rand.nextInt(3)) { default: break;
       case 0:
 	cr = rank;
 	sr1 = sr2 = 0;

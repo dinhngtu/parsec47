@@ -16,7 +16,7 @@ public class ActorPool {
  public:
   Actor[] actor;
  protected:
-  int actorIdx;
+  ptrdiff_t actorIdx;
 
   public this(int n, Actor act, ActorInitializer ini) {
     actor = new Actor[n];

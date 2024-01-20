@@ -27,10 +27,10 @@ public class Ship {
   static bool isSlow = false;
   static int displayListIdx;
   Vector pos;
-  const float SIZE = 0.3;
+  static const float SIZE = 0.3;
   bool restart;
-  const int RESTART_CNT = 300;
-  const int INVINCIBLE_CNT = 228;
+  static const int RESTART_CNT = 300;
+  static const int INVINCIBLE_CNT = 228;
   int cnt;
  private:
   static Rand rand;
@@ -58,11 +58,8 @@ public class Ship {
   int rollLockCnt;
   bool rollCharged;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public void init(Pad pad, Field field, P47GameManager manager) {
+    if (rand is null) rand = new Rand;
     this.pad = pad;
     this.field = field;
     this.manager = manager;
@@ -177,7 +174,7 @@ public class Ship {
       pos.y = fieldLimitY;
     if (btn & Pad.PAD_BUTTON1) {
       float td;
-      switch (fireCnt % 4) {
+      switch (fireCnt % 4) { default: break;
       case 0:
 	firePos.x = pos.x + TURRET_INTERVAL_LENGTH;
 	firePos.y = pos.y;

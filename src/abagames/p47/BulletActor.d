@@ -254,7 +254,7 @@ public class BulletActor: Actor {
     if (!isVisible)
       return;
     float d;
-    switch (bullet.shape) {
+    switch (bullet.shape) { default: break;
     case 0:
     case 2:
     case 5:
@@ -311,7 +311,7 @@ public class BulletActor: Actor {
       for (int j = 0; j < BULLET_SHAPE_NUM + 1; j++) {
 	glNewList(displayListIdx + idx, GL_COMPILE);
 	Screen3D.setColor(r, g, b, 1);
-	switch (j) {
+	switch (j) { default: break;
 	case 0:
 	  glBegin(GL_TRIANGLE_FAN);
 	  glVertex3f(-SHAPE_POINT_SIZE, -SHAPE_POINT_SIZE,  0);

@@ -26,9 +26,9 @@ public class SoundManager {
   Sound bgm[BGM_NUM];
   Sound se[SE_NUM];
 
-  const char[][] bgmFileName = 
+  const string[] bgmFileName = 
     ["ptn0.ogg", "ptn1.ogg", "ptn2.ogg", "ptn3.ogg"];
-  const char[][] seFileName = 
+  const string[] seFileName = 
     ["shot.wav", "rollchg.wav", "rollrls.wav", "shipdst.wav", "getbonus.wav", "extend.wav",
     "enemydst.wav", "largedst.wav", "bossdst.wav", "lock.wav", "laser.wav"];
   const int[] seChannel = 

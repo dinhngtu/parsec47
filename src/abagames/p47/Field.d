@@ -46,7 +46,7 @@ public class Field {
   }
 
   public void setColor(int mode) {
-    switch (mode){
+    switch (mode){ default: break;
     case P47GameManager.ROLL:
       r = 0.2;
       g = 0.2;
@@ -72,7 +72,7 @@ public class Field {
   }
 
   public void setType(int type) {
-    switch (type) {
+    switch (type) { default: break;
     case 0:
       aimYawYBase = 30;
       aimYawZBase = 0;

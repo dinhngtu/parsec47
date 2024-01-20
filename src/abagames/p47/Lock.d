@@ -106,7 +106,7 @@ public class Lock: Actor {
 	lockedPos.y = lockedEnemy.pos.y + lockedEnemy.type.batteryType[lockedPart].collisionPos.y;
       }
     }
-    switch (state) {
+    switch (state) { default: break;
     case LOCKING:
       if (cnt >= LOCK_CNT) {
 	state = LOCKED;
@@ -175,7 +175,7 @@ public class Lock: Actor {
   }
 
   public override void draw() {
-    switch (state) {
+    switch (state) { default: break;
     case LOCKING:
       float y = lockedPos.y - (LOCK_CNT - cnt) * 0.5;
       float d = (LOCK_CNT - cnt) * 0.1;

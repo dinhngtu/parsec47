@@ -16,7 +16,7 @@ public class P47PrefManager: PrefManager {
  public:
   static const int PREV_VERSION_NUM = 10;
   static const int VERSION_NUM = 20;
-  static const char[] PREF_FILE = "p47.prf";
+  static const string PREF_FILE = "p47.prf";
   static const int MODE_NUM = 2;
   static const int DIFFICULTY_NUM = 4;
   static const int REACHED_PARSEC_SLOT_NUM = 10;
@@ -49,8 +49,8 @@ public class P47PrefManager: PrefManager {
     fd.read(selectedParsecSlot);
   }
 
-  public void load() {
-    auto File fd = new File;
+  public override void load() {
+    scope File fd = new File;
     try {
       int ver;
       fd.open(PREF_FILE);
@@ -81,8 +81,8 @@ public class P47PrefManager: PrefManager {
     }
   }
 
-  public void save() {
-    auto File fd = new File;
+  public override void save() {
+    scope File fd = new File;
     fd.create(PREF_FILE);
     fd.write(VERSION_NUM);
     for (int k = 0; k < MODE_NUM; k++) {

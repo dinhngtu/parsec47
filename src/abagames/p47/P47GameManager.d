@@ -98,33 +98,33 @@ public class P47GameManager: GameManager {
     Ship.createDisplayLists();
     ship = new Ship;
     ship.init(pad, field, this);
-    auto Particle particleClass = new Particle;
-    auto ParticleInitializer pi = new ParticleInitializer;
+    scope Particle particleClass = new Particle;
+    scope ParticleInitializer pi = new ParticleInitializer;
     particles = new LuminousActorPool(128, particleClass, pi);
-    auto Fragment fragmentClass = new Fragment;
-    auto FragmentInitializer fi = new FragmentInitializer;
+    scope Fragment fragmentClass = new Fragment;
+    scope FragmentInitializer fi = new FragmentInitializer;
     fragments = new LuminousActorPool(128, fragmentClass, fi);
     BulletActor.createDisplayLists();
-    auto BulletActorInitializer bi = new BulletActorInitializer(field, ship);
+    scope BulletActorInitializer bi = new BulletActorInitializer(field, ship);
     bullets = new BulletActorPool(512, bi);
     LetterRender.createDisplayLists();
-    auto Shot shotClass = new Shot;
-    auto ShotInitializer shi = new ShotInitializer(field);
+    scope Shot shotClass = new Shot;
+    scope ShotInitializer shi = new ShotInitializer(field);
     shots = new ActorPool(32, shotClass, shi);
-    auto Roll rollClass = new Roll;
-    auto RollInitializer ri = new RollInitializer(ship, field, this);
+    scope Roll rollClass = new Roll;
+    scope RollInitializer ri = new RollInitializer(ship, field, this);
     rolls = new ActorPool(4, rollClass, ri);
     Lock.init();
-    auto Lock lockClass = new Lock;
-    auto LockInitializer li = new LockInitializer(ship, field, this);
+    scope Lock lockClass = new Lock;
+    scope LockInitializer li = new LockInitializer(ship, field, this);
     locks = new ActorPool(4, lockClass, li);
-    auto Enemy enemyClass = new Enemy;
-    auto EnemyInitializer ei = new EnemyInitializer
+    scope Enemy enemyClass = new Enemy;
+    scope EnemyInitializer ei = new EnemyInitializer
       (field, bullets, shots, rolls, locks, ship, this);
     enemies = new ActorPool(ENEMY_MAX, enemyClass, ei);
     Bonus.init();
-    auto Bonus bonusClass = new Bonus;
-    auto BonusInitializer bni = new BonusInitializer(field, ship, this);
+    scope Bonus bonusClass = new Bonus;
+    scope BonusInitializer bni = new BonusInitializer(field, ship, this);
     bonuses = new ActorPool(128, bonusClass, bni);
     barrageManager = new BarrageManager;
     barrageManager.loadBulletMLs();
@@ -281,7 +281,7 @@ public class P47GameManager: GameManager {
     this.parsecSlot = parsecSlot;
     this.mode = mode;
     int stageType = rand.nextInt(99999);
-    switch (difficulty) {
+    switch (difficulty) { default: break;
     case PRACTICE:
       stageManager.setRank(1, 4, startParsec, stageType);
       ship.setSpeedRate(0.7);
@@ -610,7 +610,7 @@ public class P47GameManager: GameManager {
     drawBox(165, 6, bossShield, 6);
     int y = 24;
     for (int i = 0; i < BOSS_WING_NUM; i++) {
-      switch (i % 2) {
+      switch (i % 2) { default: break;
       case 0:
 	drawBox(165, y, bossWingShield[i], 6);
 	break;

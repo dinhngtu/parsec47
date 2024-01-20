@@ -25,9 +25,9 @@ public class LuminousScreen {
   float luminous;
 
   private void makeLuminousTexture() {
-    uint *data = td;
+    uint *data = td.ptr;
     int i;
-    memset(data, 0, luminousTextureWidth * luminousTextureHeight * 4 * uint.sizeof);
+    td[] = 0;
     glGenTextures(1, &luminousTexture);
     glBindTexture(GL_TEXTURE_2D, luminousTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, 4, luminousTextureWidth, luminousTextureHeight, 0,

@@ -17,7 +17,7 @@ import abagames.p47.LuminousScreen;
  */
 public class P47Screen: Screen3D {
  public:
-  static const char[] CAPTION = "PARSEC47";
+  static const string CAPTION = "PARSEC47";
   static float luminous = 0;
  private:
   static Rand rand;
@@ -63,7 +63,7 @@ public class P47Screen: Screen3D {
       luminousScreen.draw();
   }
 
-  public void resized(int width, int height) {
+  public override void resized(int width, int height) {
     if (luminousScreen)
       luminousScreen.resized(width, height);
     super.resized(width, height);

@@ -104,7 +104,7 @@ public class StageManager {
   }
 
   private void setAppearancePattern(EnemyAppearance* ap) {
-    switch (rand.nextInt(5)) {
+    switch (rand.nextInt(5)) { default: break;
     case 0:
       ap.pattern = ONE_SIDE;
       break;
@@ -117,7 +117,7 @@ public class StageManager {
       ap.pattern = BOTH_SIDES;
       break;
     }
-    switch (rand.nextInt(3)) {
+    switch (rand.nextInt(3)) { default: break;
     case 0:
       ap.sequence = RANDOM;
       break;
@@ -142,7 +142,7 @@ public class StageManager {
     setAppearancePattern(ap);
     if (ap.pattern == ONE_SIDE)
       ap.pattern = ALTERNATE;
-    switch (rand.nextInt(4)) {
+    switch (rand.nextInt(4)) { default: break;
     case 0:
       ap.num = 7 + rand.nextInt(5);
       ap.groupInterval = 72 + rand.nextInt(15);
@@ -177,7 +177,7 @@ public class StageManager {
     mt = BarrageManager.MIDDLEMOVE;
     ap.moveParser = barrageManager.parser[mt][rand.nextInt(barrageManager.parserNum[mt])];
     setAppearancePattern(ap);
-    switch (rand.nextInt(3)) {
+    switch (rand.nextInt(3)) { default: break;
     case 0:
       ap.num = 4;
       ap.groupInterval = 240 + rand.nextInt(150);
@@ -203,7 +203,7 @@ public class StageManager {
     mt = BarrageManager.LARGEMOVE;
     ap.moveParser = barrageManager.parser[mt][rand.nextInt(barrageManager.parserNum[mt])];
     setAppearancePattern(ap);
-    switch (rand.nextInt(3)) {
+    switch (rand.nextInt(3)) { default: break;
     case 0:
       ap.num = 3;
       ap.groupInterval = 400 + rand.nextInt(100);
@@ -223,7 +223,7 @@ public class StageManager {
   }
 
   private void setAppearance(EnemyAppearance* ap, int type) {
-    switch (type) {
+    switch (type) { default: break;
     case SMALL:
       setSmallAppearance(ap);
       break;
@@ -255,7 +255,7 @@ public class StageManager {
     field.aimSpeed = 0.1 + section * 0.02;
     if (section == 4) {
       // Set the middle boss.
-      auto Vector pos = new Vector;
+      scope Vector pos = new Vector;
       pos.x = 0; pos.y = field.size.y / 4 * 3;
       gameManager.addBoss(pos, std.math.PI, middleBossType);
       bossSection = true;
@@ -264,7 +264,7 @@ public class StageManager {
       return;
     } else if (section == 9) {
       // Set the large boss.
-      auto Vector pos = new Vector;
+      scope Vector pos = new Vector;
       pos.x = 0; pos.y = field.size.y / 4 * 3;
       gameManager.addBoss(pos, std.math.PI, largeBossType);
       bossSection = true;
@@ -295,16 +295,16 @@ public class StageManager {
     else if (middleRushSection)
       ap = MIDDLE_RUSH_SECTION_PATTERN;
     for (int i = 0; i < apparancePattern[gameManager.mode][ap][0]; i++, apNum++) {
-      EnemyAppearance* ap = &(appearance[apNum]);
-      setAppearance(ap, SMALL);
+      EnemyAppearance* eap = &(appearance[apNum]);
+      setAppearance(eap, SMALL);
     }
     for (int i = 0; i < apparancePattern[gameManager.mode][ap][1]; i++, apNum++) {
-      EnemyAppearance* ap = &(appearance[apNum]);
-      setAppearance(ap, MIDDLE);
+      EnemyAppearance* eap = &(appearance[apNum]);
+      setAppearance(eap, MIDDLE);
     }
     for (int i = 0; i < apparancePattern[gameManager.mode][ap][2]; i++, apNum++) {
-      EnemyAppearance* ap = &(appearance[apNum]);
-      setAppearance(ap, LARGE);
+      EnemyAppearance* eap = &(appearance[apNum]);
+      setAppearance(eap, LARGE);
     }
   }
 
@@ -364,7 +364,7 @@ public class StageManager {
 	continue;
       }
       float p;
-      switch (ap.sequence) {
+      switch (ap.sequence) { default: break;
       case RANDOM:
 	p = rand.nextFloat(1);
 	break;
@@ -373,7 +373,7 @@ public class StageManager {
 	break;
       }
       float d;
-      switch (ap.point) {
+      switch (ap.point) { default: break;
       case TOP:
 	switch (ap.pattern) {
 	case BOTH_SIDES:

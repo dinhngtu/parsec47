@@ -79,15 +79,12 @@ public class Enemy: Actor {
   bool damaged;
   int bossTimer;
   
-  public static this() {
-    rand = new Rand;
-  }
-
   public override Actor newActor() {
     return new Enemy;
   }
 
   public override void init(ActorInitializer ini) {
+    if (rand is null) rand = new Rand;
     EnemyInitializer ei = cast(EnemyInitializer) ini;
     field = ei.field;
     bullets = ei.bullets;
@@ -410,7 +407,7 @@ public class Enemy: Actor {
 	Roll rl = cast(Roll) rolls.actor[i];
 	ch = checkHit(rl.pos[0], 1.0, 1.0);
 	if (ch >= HIT) {
-	  for (int i = 0; i < 4; i++)
+	  for (int ii = 0; ii < 4; ii++)
 	    manager.addParticle(rl.pos[0], rand.nextFloat(std.math.PI * 2), 0, Shot.SPEED / 10);
 	  float rd = ROLL_DAMAGE;
 	  if (rl.released) {
@@ -442,7 +439,7 @@ public class Enemy: Actor {
 	} else if (lk.state == Lock.FIRED && lk.lockedEnemy == this) {
 	  ch = checkHit(lk.pos[0], 1.5, 1.5);
 	  if (ch >= HIT && ch == lk.lockedPart) {
-	    for (int i = 0; i < 4; i++)
+	    for (int ii = 0; ii < 4; ii++)
 	      manager.addParticle(lk.pos[0], rand.nextFloat(std.math.PI * 2), 0, Shot.SPEED / 10);
 	    if (ch == HIT)
 	      addDamage(LOCK_DAMAGE);
@@ -694,21 +691,21 @@ public class Enemy: Actor {
 	P47Screen.drawLineRetro(pos.x + bt.wingShapePos[0].x, pos.y + bt.wingShapePos[0].y,
 				pos.x + bt.wingShapePos[1].x, pos.y + bt.wingShapePos[1].y);
       } else {
-	for (int i = 0; i < BatteryType.WING_SHAPE_POINT_NUM; i++, ni++) {
+	for (int ii = 0; ii < BatteryType.WING_SHAPE_POINT_NUM; ii++, ni++) {
 	  if (ni >= BatteryType.WING_SHAPE_POINT_NUM)
 	    ni = 0;
-	  P47Screen.drawLineRetro(pos.x + bt.wingShapePos[i].x, pos.y + bt.wingShapePos[i].y,
+	  P47Screen.drawLineRetro(pos.x + bt.wingShapePos[ii].x, pos.y + bt.wingShapePos[ii].y,
 				  pos.x + bt.wingShapePos[ni].x, pos.y + bt.wingShapePos[ni].y);
 	}
 	if (type.type != EnemyType.SMALL) {
 	  glBegin(GL_TRIANGLE_FAN);
 	  Screen3D.setColor
 	    (P47Screen.retroR, P47Screen.retroG, P47Screen.retroB, P47Screen.retroA);
-	  for (int i = 0; i < BatteryType.WING_SHAPE_POINT_NUM; i++) {
-	    if (i == 2)
+	  for (int ii = 0; ii < BatteryType.WING_SHAPE_POINT_NUM; ii++) {
+	    if (ii == 2)
 	      Screen3D.setColor
 		(P47Screen.retroR, P47Screen.retroG, P47Screen.retroB, 0);
-	    glVertex3f(pos.x + bt.wingShapePos[i].x, pos.y + bt.wingShapePos[i].y, z);
+	    glVertex3f(pos.x + bt.wingShapePos[ii].x, pos.y + bt.wingShapePos[ii].y, z);
 	  }
 	  glEnd();
 	}

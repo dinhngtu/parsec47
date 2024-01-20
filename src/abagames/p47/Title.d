@@ -153,9 +153,9 @@ public class Title {
   }
 
   private const int BOX_SMALL_SIZE = 24;
-  private const char[][] DIFFICULTY_SHORT_STR = ["P", "N", "H", "E", "Q"];
-  private const char[][] DIFFICULTY_STR = ["PRACTICE", "NORMAL", "HARD", "EXTREME", "QUIT"];
-  private const char[][] MODE_STR = ["ROLL", "LOCK"];
+  private const string[] DIFFICULTY_SHORT_STR = ["P", "N", "H", "E", "Q"];
+  private const string[] DIFFICULTY_STR = ["PRACTICE", "NORMAL", "HARD", "EXTREME", "QUIT"];
+  private const string[] MODE_STR = ["ROLL", "LOCK"];
 
   private void drawTitleBoard() {
     glEnable(GL_TEXTURE_2D);

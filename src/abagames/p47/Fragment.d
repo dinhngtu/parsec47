@@ -34,15 +34,12 @@ public class Fragment: LuminousActor {
   float retro;
   int cnt;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public override Actor newActor() {
     return new Fragment;
   }
 
   public override void init(ActorInitializer ini) {
+    if (rand is null) rand = new Rand;
     FragmentInitializer fi = cast(FragmentInitializer) ini;
     for (int i = 0; i < POINT_NUM; i++) {
       pos[i] = new Vector;

@@ -23,7 +23,7 @@ public class LetterRender {
     WHITE, RED
   }
 
-  private static void changeColor(int c) {
+  public static void changeColor(int c) {
     colorIdx = c * LETTER_NUM;
   }
 
@@ -40,12 +40,12 @@ public class LetterRender {
     TO_RIGHT, TO_DOWN, TO_LEFT, TO_UP,
   }
 
-  public static void drawString(char[] str, float lx, float y, float s, int d) {
+  public static void drawString(string str, float lx, float y, float s, int d) {
     float x = lx;
     int c;
     int idx;
     float ld;
-    switch (d) {
+    switch (d) { default: break;
     case TO_RIGHT:
       ld = 0;
       break;
@@ -79,7 +79,7 @@ public class LetterRender {
 	}
 	drawLetter(idx, x, y, s, ld);
       }
-      switch(d) {
+      switch(d) { default: break;
       case TO_RIGHT:
 	x += s * 1.7f;
 	break;
@@ -100,7 +100,7 @@ public class LetterRender {
     int n = num;
     float x = lx;
     float ld;
-    switch (d) {
+    switch (d) { default: break;
     case TO_RIGHT:
       ld = 0;
       break;
@@ -116,7 +116,7 @@ public class LetterRender {
     }
     for (;;) {
       drawLetter(n % 10, x, y, s, ld);
-      switch(d) {
+      switch(d) { default: break;
       case TO_RIGHT:
 	x -= s * 1.7f;
 	break;
@@ -147,7 +147,7 @@ public class LetterRender {
 	n /= 6;
       }
       if ((i & 1) == 1 || i == 0) {
-	switch (i) {
+	switch (i) { default: break;
 	case 3:
 	  drawLetter(41, x + s * 1.16f, y, s);
 	  break;

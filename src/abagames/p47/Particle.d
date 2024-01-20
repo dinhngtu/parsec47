@@ -30,15 +30,12 @@ public class Particle: LuminousActor {
   float lumAlp;
   int cnt;
 
-  public static this() {
-    rand = new Rand;
-  }
-
   public override Actor newActor() {
     return new Particle;
   }
 
   public override void init(ActorInitializer ini) {
+    if (rand is null) rand = new Rand;
     pos = new Vector;
     ppos = new Vector;
     vel = new Vector;

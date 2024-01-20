@@ -7,6 +7,7 @@ module abagames.util.sdl.Screen3D;
 
 private:
 import std.string;
+private import std.conv;
 import SDL;
 import opengl;
 import abagames.util.Logger;
@@ -41,7 +42,7 @@ public class Screen3D: Screen {
     // Initialize SDL.
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
       throw new SDLInitFailedException(
-	"Unable to initialize SDL: " ~ std.string.toString(SDL_GetError()));
+	"Unable to initialize SDL: " ~ to!string(SDL_GetError()));
     }
     // Create an OpenGL screen.
     if (windowMode) {
@@ -51,7 +52,7 @@ public class Screen3D: Screen {
     } 
     if (SDL_SetVideoMode(width, height, 0, videoFlags) == null) {
       throw new SDLInitFailedException
-	("Unable to create SDL screen: " ~ std.string.toString(SDL_GetError()));
+	("Unable to create SDL screen: " ~ to!string(SDL_GetError()));
     }
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     resized(width, height);
@@ -64,7 +65,7 @@ public class Screen3D: Screen {
   private void screenResized() {
     if (SDL_SetVideoMode(width, height, 0, videoFlags) == null) {
       throw new Exception
-        ("Unable to resize SDL screen: " ~ std.string.toString(SDL_GetError()));
+        ("Unable to resize SDL screen: " ~ to!string(SDL_GetError()));
     }
 
     glViewport(0, 0, width, height);
@@ -105,7 +106,7 @@ public class Screen3D: Screen {
     throw new Exception("OpenGL error");
   }
 
-  protected void setCaption(char[] name) {
+  protected void setCaption(string name) {
     SDL_WM_SetCaption(std.string.toStringz(name), null);
   }
 

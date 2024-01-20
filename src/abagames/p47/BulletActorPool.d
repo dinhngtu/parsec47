@@ -24,7 +24,7 @@ public class BulletActorPool: ActorPool, BulletsManager {
   int cnt;
 
   public this(int n, ActorInitializer ini) {
-    auto BulletActor bulletActorClass = new BulletActor;
+    scope BulletActor bulletActorClass = new BulletActor;
     super(n, bulletActorClass, ini);
     Bullet.setBulletsManager(this);
     BulletActor.init();
@@ -109,7 +109,7 @@ public class BulletActorPool: ActorPool, BulletsManager {
     return ba;
   }
 
-  public void move() {
+  public override void move() {
     super.move();
     cnt++;
   }

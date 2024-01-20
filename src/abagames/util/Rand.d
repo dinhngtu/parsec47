@@ -6,7 +6,7 @@
 module abagames.util.Rand;
 
 private:
-import std.date;
+import std.datetime;
 import mt;
 
 /**
@@ -15,12 +15,12 @@ import mt;
 public class Rand {
   
   public this() {
-    d_time timer = getUTCtime();
-    init_genrand(timer);
+    long timer = Clock.currStdTime();
+    init_genrand(cast(uint)timer);
   }
 
   public void setSeed(long n) {
-    init_genrand(n);
+    init_genrand(cast(uint)n);
   }
 
   public int nextInt(int n) {
