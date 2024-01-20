@@ -1,0 +1,26 @@
+{
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.sass-cache": true,
+        "**/.svn": true,
+        "**/.vs": true,
+        "**/*.{mod,mod.c}": true,
+        "**/*.{o,ko,mod}.cmd": true,
+        "**/*.a": true,
+        "**/*.d": false,
+        "**/*.exe": true,
+        "**/*.ko": true,
+        "**/*.o": true,
+        "**/*.obj": true,
+        "**/*.pdb": true,
+        "**/*.so": true,
+        "**/bower_components": true,
+        "**/Cargo.lock": true,
+        "**/Module.symvers": true,
+        "**/modules.{builtin,order}": true,
+        "**/node_modules": true
+    },
+}

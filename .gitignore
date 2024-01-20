@@ -1,0 +1,9 @@
+allmusics/*
+sounds/*
+*.exe
+*.dll
+*.bat
+*.prf
+*.obj
+*.lib
+*.bak
