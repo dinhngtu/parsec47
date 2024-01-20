@@ -1,6 +1,6 @@
 import opengl;
 
-extern(Windows):
+extern(System):
 
 GLubyte* gluErrorString (
     GLenum   errCode);
@@ -28,7 +28,7 @@ void gluPickMatrix (
     GLdouble y, 
     GLdouble width, 
     GLdouble height, 
-    GLint[4]    viewport);
+    ref GLint[4] viewport);
 
 void gluLookAt (
     GLdouble eyex, 
@@ -45,9 +45,9 @@ int gluProject (
     GLdouble        objx, 
     GLdouble        objy, 
     GLdouble        objz,  
-    GLdouble[16]    modelMatrix, 
-    GLdouble[16]    projMatrix, 
-    GLint[4]        viewport, 
+    ref GLdouble[16] modelMatrix, 
+    ref GLdouble[16] projMatrix, 
+    ref GLint[4]    viewport, 
     GLdouble        *winx, 
     GLdouble        *winy, 
     GLdouble        *winz);
@@ -56,8 +56,8 @@ int gluUnProject (
     GLdouble       winx, 
     GLdouble       winy, 
     GLdouble       winz, 
-    GLdouble[16]   modelMatrix, 
-    GLdouble[16]   projMatrix, 
+    ref GLdouble[16] modelMatrix, 
+    ref GLdouble[16] projMatrix, 
     GLint[4]       viewport, 
     GLdouble       *objx, 
     GLdouble       *objy, 
@@ -157,7 +157,7 @@ void gluSphere (
 void gluQuadricCallback (
     GLUquadric          *qobj, 
     GLenum              which, 
-    void                (* fn)());
+    void                function() fn);
 
 GLUtesselator*  gluNewTess(          
     );
@@ -174,7 +174,7 @@ void  gluTessBeginContour(
 
 void  gluTessVertex(       
     GLUtesselator       *tess,
-    GLdouble[3]         coords, 
+    ref GLdouble[3]     coords, 
     void                *data );
 
 void  gluTessEndContour(   
@@ -197,7 +197,7 @@ void  gluTessNormal(
 void  gluTessCallback(     
     GLUtesselator       *tess,
     GLenum              which, 
-    void                ( *fn)());
+    void                function() fn);
 
 void  gluGetTessProperty(  
     GLUtesselator       *tess,
@@ -260,9 +260,9 @@ gluNurbsSurface(
 void 
 gluLoadSamplingMatrices (
     GLUnurbs            *nobj, 
-    GLfloat[16]     modelMatrix, 
-    GLfloat[16]     projMatrix, 
-    GLint[4]        viewport );
+    ref GLfloat[16]     modelMatrix, 
+    ref GLfloat[16]     projMatrix, 
+    ref GLint[4]        viewport );
 
 void 
 gluNurbsProperty (
@@ -280,37 +280,37 @@ void
 gluNurbsCallback (
     GLUnurbs            *nobj, 
     GLenum              which, 
-    void                (* fn)() );
+    void                function() fn );
 
 
 /****            function prototypes    ****/
 
 /* gluQuadricCallback */
-typedef void (* GLUquadricErrorProc) (GLenum);
+alias void function(GLenum) GLUquadricErrorProc;
 
 /* gluTessCallback */
-typedef void (* GLUtessBeginProc)        (GLenum);
-typedef void (* GLUtessEdgeFlagProc)     (GLboolean);
-typedef void (* GLUtessVertexProc)       (void *);
-typedef void (* GLUtessEndProc)          ();
-typedef void (* GLUtessErrorProc)        (GLenum);
-typedef void (* GLUtessCombineProc)      (GLdouble[3],
-                                                  void*[4], 
-                                                  GLfloat[4],
-                                                  void** );
-typedef void (* GLUtessBeginDataProc)    (GLenum, void *);
-typedef void (* GLUtessEdgeFlagDataProc) (GLboolean, void *);
-typedef void (* GLUtessVertexDataProc)   (void *, void *);
-typedef void (* GLUtessEndDataProc)      (void *);
-typedef void (* GLUtessErrorDataProc)    (GLenum, void *);
-typedef void (* GLUtessCombineDataProc)  (GLdouble[3],
-                                                  void*[4], 
-                                                  GLfloat[4],
-                                                  void**,
-                                                  void* );
+alias void function(GLenum) GLUtessBeginProc;
+alias void function(GLboolean) GLUtessEdgeFlagProc;
+alias void function(void *) GLUtessVertexProc;
+alias void function() GLUtessEndProc;
+alias void function(GLenum) GLUtessErrorProc;
+alias void function(ref GLdouble[3],
+                    ref void*[4], 
+                    ref GLfloat[4],
+                    void**) GLUtessCombineProc;
+alias void function(GLenum, void *) GLUtessBeginDataProc;
+alias void function(GLboolean, void *) GLUtessEdgeFlagDataProc;
+alias void function(void *, void *) GLUtessVertexDataProc;
+alias void function(void *) GLUtessEndDataProc;
+alias void function(GLenum, void *) GLUtessErrorDataProc;
+alias void function(ref GLdouble[3],
+                    ref void*[4], 
+                    ref GLfloat[4],
+                    void**,
+                    void*) GLUtessCombineDataProc;
 
 /* gluNurbsCallback */
-typedef void (* GLUnurbsErrorProc)   (GLenum);
+alias void function(GLenum) GLUnurbsErrorProc;
 
 
 /****           Generic constants               ****/
@@ -357,7 +357,6 @@ const int GLU_INSIDE            = 100021;
 
 /****           Tesselation constants           ****/
 
-//const extended GLU_TESS_MAX_COORD            = 1.0e150;
 const real GLU_TESS_MAX_COORD            = 1.0e150;
 
 /* TessProperty */

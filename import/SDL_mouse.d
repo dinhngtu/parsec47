@@ -32,7 +32,7 @@ struct SDL_Cursor {
 	Sint16 hot_x, hot_y;		/* The "tip" of the cursor */
 	Uint8 *data;			/* B/W cursor data */
 	Uint8 *mask;			/* B/W cursor mask */
-	Uint8 *save[2];			/* Place to save cursor area */
+	Uint8 *[2] save;			/* Place to save cursor area */
 	void /*WMcursor*/ *wm_cursor;		/* Window-manager cursor */
 }
 
@@ -109,6 +109,8 @@ uint SDL_BUTTON(uint X) { return SDL_PRESSED << (X-1); }
 const uint SDL_BUTTON_LEFT		= 1;
 const uint SDL_BUTTON_MIDDLE	= 2;
 const uint SDL_BUTTON_RIGHT		= 3;
+const uint SDL_BUTTON_WHEELUP	= 4;
+const uint SDL_BUTTON_WHEELDOWN	= 5;
 const uint SDL_BUTTON_LMASK		= SDL_PRESSED << (SDL_BUTTON_LEFT - 1);
 const uint SDL_BUTTON_MMASK		= SDL_PRESSED << (SDL_BUTTON_MIDDLE - 1);
 const uint SDL_BUTTON_RMASK		= SDL_PRESSED << (SDL_BUTTON_RIGHT - 1);

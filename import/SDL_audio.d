@@ -24,6 +24,7 @@ import SDL_types;
 import SDL_error;
 import SDL_rwops;
 import SDL_byteorder;
+import std.string;
 
 extern(C):
 
@@ -42,7 +43,7 @@ struct SDL_AudioSpec {
 	   Once the callback returns, the buffer will no longer be valid.
 	   Stereo samples are stored in a LRLRLR ordering.
 	*/
-	void (*callback)(void *userdata, Uint8 *stream, int len);
+	void function(void *userdata, Uint8 *stream, int len) callback;
 	void  *userdata;
 }
 
@@ -74,7 +75,7 @@ struct SDL_AudioCVT {
 	int    len_cvt;			/* Length of converted audio buffer */
 	int    len_mult;		/* buffer must be len*len_mult big */
 	double len_ratio; 	/* Given len, final size is len*len_ratio */
-	void (*filters[10])(SDL_AudioCVT *cvt, Uint16 format);
+	void function(SDL_AudioCVT *cvt, Uint16 format)[10] filters;
 	int filter_index;		/* Current audio conversion function */
 }
 
@@ -161,7 +162,7 @@ void SDL_PauseAudio(int pause_on);
  * This function loads a WAVE from the data source, automatically freeing
  * that source if 'freesrc' is non-zero.  For example, to load a WAVE file,
  * you could do:
- *	SDL_LoadWAV_RW(SDL_RWFromFile("sample.wav", "rb"), 1, ...);
+ *	SDL_LoadWAV_RW(SDL_RWFromFile("sample.wav", toStringz("rb")), 1, ...);
  * 
  * If this function succeeds, it returns the given SDL_AudioSpec,
  * filled with the audio data format of the wave data, and sets
@@ -178,7 +179,7 @@ SDL_AudioSpec *SDL_LoadWAV_RW(SDL_RWops *src, int freesrc,
 		 SDL_AudioSpec *spec, Uint8 **audio_buf, Uint32 *audio_len);
 
 /* Compatibility convenience function -- loads a WAV from a file */
-SDL_AudioSpec *SDL_LoadWAV(char* file, SDL_AudioSpec* spec,
+SDL_AudioSpec *SDL_LoadWAV(const(char)* file, SDL_AudioSpec* spec,
 		Uint8 **audio_buf, Uint32 *audio_len)
 {		
 	return SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1, spec,

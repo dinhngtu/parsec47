@@ -271,7 +271,7 @@ int SDL_PushEvent(SDL_Event *event);
 
   The filter is protypted as:
 */
-alias int (*SDL_EventFilter)(SDL_Event *event);
+alias int function(SDL_Event *event) SDL_EventFilter;
 /*
   If the filter returns 1, then the event will be added to the internal queue.
   If it returns 0, then the event will be dropped from the queue, but the 
@@ -304,8 +304,8 @@ SDL_EventFilter SDL_GetEventFilter();
   If 'state' is set to SDL_QUERY, SDL_EventState() will return the 
   current processing state of the specified event.
 */
-const uint SDL_QUERY	= -1;
-const uint SDL_IGNORE	= 0;
-const uint SDL_DISABLE	= 0;
-const uint SDL_ENABLE	= 1;
+const int SDL_QUERY	= -1;
+const int SDL_IGNORE	= 0;
+const int SDL_DISABLE	= 0;
+const int SDL_ENABLE	= 1;
 Uint8 SDL_EventState(Uint8 type, int state);

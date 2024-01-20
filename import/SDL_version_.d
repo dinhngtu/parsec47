@@ -30,7 +30,7 @@ extern(C):
 */
 const uint SDL_MAJOR_VERSION	= 1;
 const uint SDL_MINOR_VERSION	= 2;
-const uint SDL_PATCHLEVEL		= 3;
+const uint SDL_PATCHLEVEL		= 6;
 
 struct SDL_version {
 	Uint8 major;
@@ -63,7 +63,7 @@ const uint SDL_COMPILEDVERSION = SDL_MAJOR_VERSION * 1000 +
 									SDL_PATCHLEVEL;
 
 /* This macro will evaluate to true if compiled with SDL at least X.Y.Z */
-bit SDL_VERSION_ATLEAST(Uint8 X, Uint8 Y, Uint8 Z)
+bool SDL_VERSION_ATLEAST(Uint8 X, Uint8 Y, Uint8 Z)
 {
 	return (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
 }

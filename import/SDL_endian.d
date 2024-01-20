@@ -47,7 +47,7 @@ extern(C):
 */
 
 Uint16 SDL_Swap16(Uint16 D) {
-	return((D<<8)|(D>>8));
+	return cast(Uint16)((D<<8)|(D>>8));
 }
 
 Uint32 SDL_Swap32(Uint32 D) {
@@ -57,9 +57,9 @@ Uint32 SDL_Swap32(Uint32 D) {
 Uint64 SDL_Swap64(Uint64 val) {
 	Uint32 hi, lo;
 	/* Separate into high and low 32-bit values and swap them */
-	lo = (Uint32)(val&0xFFFFFFFF);
+	lo = cast(Uint32)(val&0xFFFFFFFF);
 	val >>= 32;
-	hi = (Uint32)(val&0xFFFFFFFF);
+	hi = cast(Uint32)(val&0xFFFFFFFF);
 	val = SDL_Swap32(lo);
 	val <<= 32;
 	val |= SDL_Swap32(hi);

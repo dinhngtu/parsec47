@@ -33,7 +33,7 @@ alias byte	Sint8;
 alias ushort	Uint16;
 alias short	Sint16;
 alias uint	Uint32;
-alias int		Sint32;
+alias int	Sint32;
 
 alias ulong	Uint64;
 alias long	Sint64;
