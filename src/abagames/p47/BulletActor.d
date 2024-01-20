@@ -59,7 +59,7 @@ public class BulletActor: Actor {
   }
 
   public override void init(ActorInitializer ini) {
-    BulletActorInitializer bi = (BulletActorInitializer) ini;
+    BulletActorInitializer bi = cast(BulletActorInitializer) ini;
     field = bi.field;
     ship = bi.ship;
     bullet = new P47Bullet(nextId);

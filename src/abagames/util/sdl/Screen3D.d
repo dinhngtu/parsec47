@@ -67,8 +67,8 @@ public class Screen3D: Screen {
     //gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, nearPlane, farPlane);
     glFrustum(-nearPlane,
 	      nearPlane,
-	      -nearPlane * (GLfloat)height / (GLfloat)width,
-	      nearPlane * (GLfloat)height / (GLfloat)width,
+	      -nearPlane * cast(GLfloat)height / cast(GLfloat)width,
+	      nearPlane * cast(GLfloat)height / cast(GLfloat)width,
 	      0.1f, farPlane);
     glMatrixMode(GL_MODELVIEW);
   }

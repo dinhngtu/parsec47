@@ -97,7 +97,7 @@ public class Field {
     float d = -RING_NUM * RING_ANGLE_INT / 2 + roll;
     for (int i = 0; i < RING_NUM; i++) {
       for (int j = 1; j < 8; j++) {
-	float sc = (float) j / 16 + 0.5;
+	float sc = cast(float) j / 16 + 0.5;
 	glPushMatrix();
 	glTranslatef(0, 0, z);
 	glRotatef(d, 1, 0, 0);
@@ -126,7 +126,7 @@ public class Field {
 
   private static const int RING_POS_NUM = 16;
   private static Vector ringPos[RING_POS_NUM];
-  private static const float RING_DEG = std.math.PI / 3 / ((float) (RING_POS_NUM / 2) + 0.5);
+  private static const float RING_DEG = std.math.PI / 3 / (cast(float) (RING_POS_NUM / 2) + 0.5);
   private static const float RING_RADIUS = 10;
   private static const float RING_SIZE = 0.5;
 
@@ -159,7 +159,7 @@ public class Field {
   }
 
   public static void createDisplayLists() {
-    float d = -RING_DEG * ((float) (RING_POS_NUM / 2) - 0.5);
+    float d = -RING_DEG * (cast(float) (RING_POS_NUM / 2) - 0.5);
     for (int i = 0; i < RING_POS_NUM; i++, d += RING_DEG) {
       ringPos[i] = new Vector;
       ringPos[i].x = sin(d) * RING_RADIUS;

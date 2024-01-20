@@ -52,7 +52,7 @@ public class Lock: Actor {
   }
 
   public override void init(ActorInitializer ini) {
-    LockInitializer li = (LockInitializer) ini;
+    LockInitializer li = cast(LockInitializer) ini;
     ship = li.ship;
     field = li.field;
     manager = li.manager;

@@ -32,10 +32,10 @@ public class BulletActorPool: ActorPool, BulletsManager {
   }
 
   public void addBullet(float deg, float speed) {
-    BulletActor ba = (BulletActor) getInstance();
+    BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return;
-    P47Bullet rb = (P47Bullet) Bullet.now;
+    P47Bullet rb = cast(P47Bullet) Bullet.now;
     if (rb.isMorph) {
       BulletMLRunner *runner = BulletMLRunner_new_parser(rb.morphParser[rb.morphIdx]);
       BulletActorPool.registFunctions(runner);
@@ -51,12 +51,12 @@ public class BulletActorPool: ActorPool, BulletsManager {
   }
 
   public void addBullet(BulletMLState *state, float deg, float speed) {
-    BulletActor ba = (BulletActor) getInstance();
+    BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return;
     BulletMLRunner* runner = BulletMLRunner_new_state(state);
     registFunctions(runner);
-    P47Bullet rb = (P47Bullet) Bullet.now;
+    P47Bullet rb = cast(P47Bullet) Bullet.now;
     if (rb.isMorph)
       ba.set(runner, Bullet.now.pos.x, Bullet.now.pos.y, deg, speed, 
 	     Bullet.now.rank, 
@@ -72,7 +72,7 @@ public class BulletActorPool: ActorPool, BulletsManager {
 			       float x, float y, float deg, float speed,
 			       float rank, 
 			       float speedRank, int shape, int color, float size, float xReverse) {
-    BulletActor ba = (BulletActor) getInstance();
+    BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return null;
     ba.set(runner, x, y, deg, speed, rank, speedRank, shape, color, size, xReverse);
@@ -99,7 +99,7 @@ public class BulletActorPool: ActorPool, BulletsManager {
 			       float rank,
 			       float speedRank, int shape, int color, float size, float xReverse,
 			       BulletMLParser *morph[], int morphNum, int morphCnt) {
-    BulletActor ba = (BulletActor) getInstance();
+    BulletActor ba = cast(BulletActor) getInstance();
     if (!ba)
       return null;
     ba.set(runner, x, y, deg, speed, rank, 
@@ -119,14 +119,14 @@ public class BulletActorPool: ActorPool, BulletsManager {
   }
   
   public void killMe(Bullet bullet) {
-    assert(((BulletActor) actor[bullet.id]).bullet.id == bullet.id);
-    ((BulletActor) actor[bullet.id]).remove();
+    assert((cast(BulletActor) actor[bullet.id]).bullet.id == bullet.id);
+    (cast(BulletActor) actor[bullet.id]).remove();
   }
 
   public override void clear() {
     for (int i = 0; i < actor.length; i++) {
       if (actor[i].isExist)
-	((BulletActor) actor[i]).remove();
+	(cast(BulletActor) actor[i]).remove();
     }
   }
 
@@ -155,7 +155,7 @@ extern (C) {
   double getAimDirectionWithXRev_(BulletMLRunner* r) {
     Vector b = Bullet.now.pos;
     Vector t = Bullet.target;
-    float xrev = ((P47Bullet) Bullet.now).xReverse;
+    float xrev = (cast(P47Bullet) Bullet.now).xReverse;
     return rtod(std.math.atan2(t.x - b.x, t.y - b.y) * xrev);
   }
 }

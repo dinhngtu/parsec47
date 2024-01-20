@@ -162,7 +162,7 @@ long genrand_int31()
     y ^= (y << 15) & 0xefc60000UL;
     y ^= (y >> 18);
 
-    return (long)(y>>1);
+    return cast(long)(y>>1);
 }
 
 /* generates a random number on [0,1]-real-interval */
@@ -179,7 +179,7 @@ double genrand_real1()
     y ^= (y << 15) & 0xefc60000UL;
     y ^= (y >> 18);
 
-    return (double)y * (1.0/4294967295.0); 
+    return cast(double)y * (1.0/4294967295.0); 
     /* divided by 2^32-1 */ 
 }
 
@@ -197,7 +197,7 @@ double genrand_real2()
     y ^= (y << 15) & 0xefc60000UL;
     y ^= (y >> 18);
 
-    return (double)y * (1.0/4294967296.0); 
+    return cast(double)y * (1.0/4294967296.0); 
     /* divided by 2^32 */
 }
 
@@ -215,7 +215,7 @@ double genrand_real3()
     y ^= (y << 15) & 0xefc60000UL;
     y ^= (y >> 18);
 
-    return ((double)y + 0.5) * (1.0/4294967296.0); 
+    return (cast(double)y + 0.5) * (1.0/4294967296.0); 
     /* divided by 2^32 */
 }
 

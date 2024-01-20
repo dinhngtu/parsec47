@@ -43,7 +43,7 @@ public class Fragment: LuminousActor {
   }
 
   public override void init(ActorInitializer ini) {
-    FragmentInitializer fi = (FragmentInitializer) ini;
+    FragmentInitializer fi = cast(FragmentInitializer) ini;
     for (int i = 0; i < POINT_NUM; i++) {
       pos[i] = new Vector;
       vel[i] = new Vector;

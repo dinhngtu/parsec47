@@ -88,7 +88,7 @@ public class MainLoop {
       if (event.type == SDL_QUIT)
 	breakLoop();
       nowTick = SDL_GetTicks();
-      frame = (int) (nowTick-prvTickCount) / interval;
+      frame = cast(int) (nowTick-prvTickCount) / interval;
       if (frame <= 0) {
 	frame = 1;
 	SDL_Delay(prvTickCount+interval-nowTick);

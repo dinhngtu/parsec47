@@ -128,7 +128,7 @@ public class P47Screen: Screen3D {
       float ly = std.math.fabs(y2 - y1);
       glBegin(GL_QUADS);
       if (lx < ly) {
-	int n = ly / ds;
+	int n = cast(int)(ly / ds);
 	if (n > 0) {
 	  float xo = (x2 - x1) / n, xos  = 0;
 	  float yo;
@@ -152,7 +152,7 @@ public class P47Screen: Screen3D {
 	  }
 	}
       } else {
-	int n = lx / ds;
+	int n = cast(int)(lx / ds);
 	if (n > 0) {
 	  float yo = (y2 - y1) / n, yos = 0;
 	  float xo;

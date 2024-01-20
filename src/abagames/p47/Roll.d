@@ -40,7 +40,7 @@ public class Roll: Actor {
   }
 
   public override void init(ActorInitializer ini) {
-    RollInitializer ri = (RollInitializer) ini;
+    RollInitializer ri = cast(RollInitializer) ini;
     ship = ri.ship;
     field = ri.field;
     manager = ri.manager;

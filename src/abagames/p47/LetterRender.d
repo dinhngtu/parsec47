@@ -177,22 +177,22 @@ public class LetterRender {
     float x, y, length, size, t;
     int deg;
     for (int i = 0;; i++) {
-      deg = (int) spData[idx][i][4];
+      deg = cast(int) spData[idx][i][4];
       if (deg > 99990) break;
-      x = -spData[idx][i][0]; 
+      x = -spData[idx][i][0];
       y = -spData[idx][i][1];
-      size = spData[idx][i][2]; 
+      size = spData[idx][i][2];
       length = spData[idx][i][3];
-      size *= 0.66f; 
+      size *= 0.66f;
       length *= 0.6f;
-      x = -x; 
+      x = -x;
       y = y;
       deg %= 180;
-      if (deg <= 45 || deg > 135) 
+      if (deg <= 45 || deg > 135)
 	drawBox(x, y, size, length, r, g, b);
-      else 
+      else
 	drawBox(x, y, length, size, r, g, b);
-    }    
+    }
   }
 
   private static const int LETTER_NUM = 42;

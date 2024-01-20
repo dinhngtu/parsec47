@@ -19,7 +19,7 @@ public class LuminousScreen {
   GLuint luminousTexture;
   const int LUMINOUS_TEXTURE_WIDTH_MAX = 64;
   const int LUMINOUS_TEXTURE_HEIGHT_MAX = 64;
-  GLuint td[LUMINOUS_TEXTURE_WIDTH_MAX * LUMINOUS_TEXTURE_HEIGHT_MAX * 4 * uint.size];
+  GLuint td[LUMINOUS_TEXTURE_WIDTH_MAX * LUMINOUS_TEXTURE_HEIGHT_MAX * 4 * uint.sizeof];
   int luminousTextureWidth = 64, luminousTextureHeight = 64;
   int screenWidth, screenHeight;
   float luminous;
@@ -27,7 +27,7 @@ public class LuminousScreen {
   private void makeLuminousTexture() {
     uint *data = td;
     int i;
-    memset(data, 0, luminousTextureWidth * luminousTextureHeight * 4 * uint.size);
+    memset(data, 0, luminousTextureWidth * luminousTextureHeight * 4 * uint.sizeof);
     glGenTextures(1, &luminousTexture);
     glBindTexture(GL_TEXTURE_2D, luminousTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, 4, luminousTextureWidth, luminousTextureHeight, 0,

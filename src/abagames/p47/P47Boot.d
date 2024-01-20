@@ -42,7 +42,7 @@ private void parseArgs(char[][] args) {
 	throw new Exception("Invalid options");
       }
       i++;
-      float b = (float) atoi(args[i]) / 100;
+      float b = cast(float) atoi(args[i]) / 100;
       if (b < 0 || b > 1) {
 	usage(args[0]);
 	throw new Exception("Invalid options");
@@ -55,7 +55,7 @@ private void parseArgs(char[][] args) {
 	throw new Exception("Invalid options");
       }
       i++;
-      float l = (float) atoi(args[i]) / 100;
+      float l = cast(float) atoi(args[i]) / 100;
       if (l < 0 || l > 1) {
 	usage(args[0]);
 	throw new Exception("Invalid options");
