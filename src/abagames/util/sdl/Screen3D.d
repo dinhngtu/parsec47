@@ -22,7 +22,7 @@ public class Screen3D: Screen {
   static int width = 640;
   static int height = 480;
   static bool lowres = false;
-  static bool windowMode = false;
+  static bool windowMode = true;
   static float nearPlane = 0.1;
   static float farPlane = 1000;
 

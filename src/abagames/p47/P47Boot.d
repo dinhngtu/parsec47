@@ -30,7 +30,7 @@ MainLoop mainLoop;
 
 private void usage(char[] args0) {
   Logger.error
-    ("Usage: " ~ args0 ~ " [-brightness [0-100]] [-luminous [0-100]] [-nosound] [-window] [-reverse] [-lowres] [-slowship] [-nowait]");
+    ("Usage: " ~ args0 ~ " [-brightness [0-100]] [-luminous [0-100]] [-nosound] [-window] [-fullscreen] [-reverse] [-lowres] [-slowship] [-nowait]");
 }
 
 private void parseArgs(char[][] args) {
@@ -67,6 +67,9 @@ private void parseArgs(char[][] args) {
       break;
     case "-window":
       Screen3D.windowMode = true;
+      break;
+    case "-fullscreen":
+      Screen3D.windowMode = false;
       break;
     case "-reverse":
       pad.buttonReversed = true;
