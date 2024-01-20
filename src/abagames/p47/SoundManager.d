@@ -23,8 +23,8 @@ public class SoundManager {
 
  private static:
   P47GameManager manager;
-  Sound bgm[BGM_NUM];
-  Sound se[SE_NUM];
+  Sound[BGM_NUM] bgm;
+  Sound[SE_NUM] se;
 
   const string[] bgmFileName = 
     ["ptn0.ogg", "ptn1.ogg", "ptn2.ogg", "ptn3.ogg"];

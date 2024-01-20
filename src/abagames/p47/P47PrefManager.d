@@ -6,7 +6,7 @@
 module abagames.p47.P47PrefManager;
 
 private:
-import std.stream;
+import std.stdio;
 import abagames.util.PrefManager;
 
 /**
@@ -20,8 +20,8 @@ public class P47PrefManager: PrefManager {
   static const int MODE_NUM = 2;
   static const int DIFFICULTY_NUM = 4;
   static const int REACHED_PARSEC_SLOT_NUM = 10;
-  int hiScore[MODE_NUM][DIFFICULTY_NUM][REACHED_PARSEC_SLOT_NUM];
-  int reachedParsec[MODE_NUM][DIFFICULTY_NUM];
+  int[MODE_NUM][DIFFICULTY_NUM][REACHED_PARSEC_SLOT_NUM] hiScore;
+  int[MODE_NUM][DIFFICULTY_NUM] reachedParsec;
   int selectedDifficulty, selectedParsecSlot, selectedMode;
 
   private void init() {
@@ -40,62 +40,56 @@ public class P47PrefManager: PrefManager {
 
   private void loadPrevVersionData(File fd) {
     for (int i = 0; i < DIFFICULTY_NUM; i++) {
-      fd.read(reachedParsec[0][i]);
+      fd.rawRead((&reachedParsec[0][i])[0..1]);
       for (int j = 0; j < REACHED_PARSEC_SLOT_NUM; j++) {
-	fd.read(hiScore[0][i][j]);
+	fd.rawRead((&hiScore[0][i][j])[0..1]);
       }
     }
-    fd.read(selectedDifficulty);
-    fd.read(selectedParsecSlot);
+    fd.rawRead((&selectedDifficulty)[0..1]);
+    fd.rawRead((&selectedParsecSlot)[0..1]);
   }
 
   public override void load() {
-    scope File fd = new File;
     try {
       int ver;
-      fd.open(PREF_FILE);
-      fd.read(ver);
+      File fd = File(PREF_FILE);
+      fd.rawRead((&ver)[0..1]);
       if (ver == PREV_VERSION_NUM) {
 	init();
 	loadPrevVersionData(fd);
-	fd.close();
 	return;
       } else if (ver != VERSION_NUM) {
 	throw new Error("Wrong version num");
       }
       for (int k = 0; k < MODE_NUM; k++) {
 	for (int i = 0; i < DIFFICULTY_NUM; i++) {
-	  fd.read(reachedParsec[k][i]);
+	  fd.rawRead((&reachedParsec[k][i])[0..1]);
 	  for (int j = 0; j < REACHED_PARSEC_SLOT_NUM; j++) {
-	    fd.read(hiScore[k][i][j]);
+	    fd.rawRead((&hiScore[k][i][j])[0..1]);
 	  }
 	}
       }
-      fd.read(selectedDifficulty);
-      fd.read(selectedParsecSlot);
-      fd.read(selectedMode);
+      fd.rawRead((&selectedDifficulty)[0..1]);
+      fd.rawRead((&selectedParsecSlot)[0..1]);
+      fd.rawRead((&selectedMode)[0..1]);
     } catch (Error e) {
       init();
-    } finally {
-      fd.close();
     }
   }
 
   public override void save() {
-    scope File fd = new File;
-    fd.create(PREF_FILE);
-    fd.write(VERSION_NUM);
+    File fd = File(PREF_FILE);
+    fd.rawWrite((&VERSION_NUM)[0..1]);
     for (int k = 0; k < MODE_NUM; k++) {
       for (int i = 0; i < DIFFICULTY_NUM; i++) {
-	fd.write(reachedParsec[k][i]);
+	fd.rawWrite((&reachedParsec[k][i])[0..1]);
 	for (int j = 0; j < REACHED_PARSEC_SLOT_NUM; j++) {
-	  fd.write(hiScore[k][i][j]);
+	  fd.rawWrite((&hiScore[k][i][j])[0..1]);
 	}
       }
     }
-    fd.write(selectedDifficulty);
-    fd.write(selectedParsecSlot);
-    fd.write(selectedMode);
-    fd.close();
+    fd.rawWrite((&selectedDifficulty)[0..1]);
+    fd.rawWrite((&selectedParsecSlot)[0..1]);
+    fd.rawWrite((&selectedMode)[0..1]);
   }
 }

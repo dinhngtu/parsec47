@@ -59,7 +59,7 @@ const uint LMASK = 0x7fffffffUL; /* least significant r bits */
 uint MIXBITS(uint u, uint v) { return (u & UMASK) | (v & LMASK); }
 uint TWIST(uint u,uint v) { return (MIXBITS(u,v) >> 1) ^ (v&1 ? MATRIX_A : 0); }
 
-static uint state[N]; /* the array for the state vector  */
+static uint[N] state; /* the array for the state vector  */
 static int left = 1;
 static int initf = 0;
 static uint *next;
@@ -84,7 +84,7 @@ void init_genrand(uint s)
 /* key_length is its length */
 //uint init_key[];
 //uint key_length;
-void init_by_array(uint init_key[], uint key_length)
+void init_by_array(uint[] init_key, uint key_length)
 {
     int i, j, k;
     init_genrand(cast(uint)19650218UL);

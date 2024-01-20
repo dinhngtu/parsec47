@@ -134,7 +134,7 @@ public int WinMain(HINSTANCE hInstance,
   _minit();
   try {
     _moduleCtor();
-    char exe[4096];
+    char[4096] exe;
     GetModuleFileNameA(null, exe, 4096);
     string[1] prog;
     prog[0] = to!string(exe);

@@ -28,7 +28,7 @@ public class Lock: Actor {
   }
   int state;
   static const int LENGTH = 12;
-  Vector pos[LENGTH]; 
+  Vector[LENGTH] pos;
   static const int NO_COLLISION_CNT = 8;
   int cnt;
   float lockMinY;
@@ -117,6 +117,7 @@ public class Lock: Actor {
     case LOCKED:
       if (cnt >= NO_COLLISION_CNT)
 	state = FIRED;
+      goto case;
     case FIRED:
     case CANCELED:
       if (state != CANCELED) { 
