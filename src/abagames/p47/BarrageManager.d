@@ -38,7 +38,7 @@ public:
   }
   static const int BARRAGE_TYPE = 13;
   static const int BARRAGE_MAX = 64;
-  BulletMLParserTinyXML*[BARRAGE_TYPE][BARRAGE_MAX] parser;
+  BulletMLParserTinyXML*[BARRAGE_MAX][BARRAGE_TYPE] parser;
   int[BARRAGE_TYPE] parserNum;
 private:
   static const string[BARRAGE_TYPE] dirName =

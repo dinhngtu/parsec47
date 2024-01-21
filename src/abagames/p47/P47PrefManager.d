@@ -21,8 +21,8 @@ public:
   static const int MODE_NUM = 2;
   static const int DIFFICULTY_NUM = 4;
   static const int REACHED_PARSEC_SLOT_NUM = 10;
-  int[MODE_NUM][DIFFICULTY_NUM][REACHED_PARSEC_SLOT_NUM] hiScore;
-  int[MODE_NUM][DIFFICULTY_NUM] reachedParsec;
+  int[REACHED_PARSEC_SLOT_NUM][DIFFICULTY_NUM][MODE_NUM] hiScore;
+  int[DIFFICULTY_NUM][MODE_NUM] reachedParsec;
   int selectedDifficulty, selectedParsecSlot, selectedMode;
 
   private void init()
@@ -97,7 +97,7 @@ public:
 
   public override void save()
   {
-    File fd = File(PREF_FILE);
+    File fd = File(PREF_FILE, "w");
     fd.rawWrite((&VERSION_NUM)[0 .. 1]);
     for (int k = 0; k < MODE_NUM; k++)
     {
