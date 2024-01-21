@@ -27,8 +27,12 @@ private:
   protected override void init()
   {
     setCaption(CAPTION);
-    glLineWidth(1);
-    glEnable(GL_LINE_SMOOTH);
+    glLineWidth(lineWidth);
+    if (smooth) {
+      glEnable(GL_LINE_SMOOTH);
+    } else {
+      glDisable(GL_LINE_SMOOTH);
+    }
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
     glDisable(GL_LIGHTING);

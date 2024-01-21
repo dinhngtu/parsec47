@@ -9,6 +9,7 @@ private:
 import std.string;
 private import std.conv;
 import core.stdc.stdlib;
+import SDL;
 import abagames.util.Logger;
 import abagames.util.sdl.Pad;
 import abagames.util.sdl.MainLoop;
@@ -73,11 +74,40 @@ private void parseArgs(string[] args)
     case "-nosound":
       Sound.noSound = true;
       break;
+    case "-volume":
+      if (i >= args.length - 1) {
+        usage(args[0]);
+        throw new Exception("Invalid options");
+      }
+      i++;
+      int v = to!int(args[i]);
+      if (v < 0 || v > SDL_MIX_MAXVOLUME) {
+        usage(args[0]);
+        throw new Exception("Invalid options");
+      }
+      Sound.volume = v;
+      break;
+    case "-bgmvol":
+      if (i >= args.length - 1) {
+        usage(args[0]);
+        throw new Exception("Invalid options");
+      }
+      i++;
+      int v = to!int(args[i]);
+      if (v < 0 || v > SDL_MIX_MAXVOLUME) {
+        usage(args[0]);
+        throw new Exception("Invalid options");
+      }
+      Sound.bgmVol = v;
+      break;
     case "-window":
       Screen3D.windowMode = true;
       break;
     case "-fullscreen":
       Screen3D.windowMode = false;
+      break;
+    case "-nosmooth":
+      Screen3D.smooth = false;
       break;
     case "-reverse":
       pad.buttonReversed = true;
