@@ -232,7 +232,7 @@ private:
 
   public void draw()
   {
-    if (cnt < -INVINCIBLE_CNT || (cnt < 0 && (-cnt % 32) < 16))
+    if (cnt < -INVINCIBLE_CNT || (cnt < 0 && (-cnt % 16) < 8))
       return;
     glPushMatrix();
     glTranslatef(pos.x, pos.y, 0);
