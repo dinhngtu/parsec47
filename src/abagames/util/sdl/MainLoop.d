@@ -9,6 +9,7 @@ private:
 import std.math;
 import std.math.rounding;
 import core.time;
+import core.atomic;
 import std.string;
 import SDL;
 import abagames.util.Logger;
@@ -107,6 +108,7 @@ private:
       long begin = MonoTime.currTime().ticks();
       while ((MonoTime.currTime().ticks() - begin) / clk_ms < milliseconds)
       {
+        core.atomic.pause();
       }
     }
     else
