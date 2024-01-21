@@ -14,28 +14,32 @@ import abagames.util.sdl.Input;
 /**
  * Manage the lifecycle of the game.
  */
-public class GameManager {
- public:
+public class GameManager
+{
+public:
   int status;
 
- protected:
+protected:
   MainLoop mainLoop;
   Screen abstScreen;
   Input input;
   PrefManager abstPrefManager;
 
- private:
+private:
 
-  public void setMainLoop(MainLoop mainLoop) {
+  public void setMainLoop(MainLoop mainLoop)
+  {
     this.mainLoop = mainLoop;
   }
 
-  public void setUIs(Screen screen, Input input) {
+  public void setUIs(Screen screen, Input input)
+  {
     abstScreen = screen;
     this.input = input;
   }
 
-  public void setPrefManager(PrefManager prefManager) {
+  public void setPrefManager(PrefManager prefManager)
+  {
     abstPrefManager = prefManager;
   }
 

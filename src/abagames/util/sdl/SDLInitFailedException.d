@@ -8,8 +8,10 @@ module abagames.util.sdl.SDLInitFailedException;
 /**
  * SDL initialize failed.
  */
-public class SDLInitFailedException: Exception {
-  public this(string msg) {
+public class SDLInitFailedException : Exception
+{
+  public this(string msg)
+  {
     super(msg);
   }
 }
