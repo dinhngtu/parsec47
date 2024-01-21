@@ -124,6 +124,9 @@ private void parseArgs(string[] args)
     case "-accframe":
       mainLoop.accframe = 1;
       break;
+    case "-precise":
+      mainLoop.precise = 1;
+      break;
     default:
       usage(args[0]);
       throw new Exception("Invalid options");

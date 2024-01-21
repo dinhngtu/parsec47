@@ -6,6 +6,9 @@
 module abagames.util.sdl.MainLoop;
 
 private:
+import std.math;
+import std.math.rounding;
+import core.time;
 import std.string;
 import SDL;
 import abagames.util.Logger;
@@ -23,10 +26,11 @@ import abagames.util.sdl.SDLInitFailedException;
 public class MainLoop
 {
 public:
-  const int INTERVAL_BASE = 16;
-  int interval = INTERVAL_BASE;
+  const double INTERVAL_BASE = 16.67;
+  double interval = INTERVAL_BASE;
   int accframe = 0;
   int maxSkipFrame = 5;
+  bool precise = false;
   SDL_Event event;
 
 private:
@@ -34,6 +38,7 @@ private:
   Input input;
   GameManager gameManager;
   PrefManager prefManager;
+  double clk_ms;
 
   public this(Screen screen, Input input,
     GameManager gameManager, PrefManager prefManager)
@@ -45,6 +50,7 @@ private:
     gameManager.setPrefManager(prefManager);
     this.gameManager = gameManager;
     this.prefManager = prefManager;
+    this.clk_ms = cast(double) MonoTime.currTime().ticksPerSecond() / 1000.0;
   }
 
   // Initialize and load preference.
@@ -79,12 +85,42 @@ private:
     done = true;
   }
 
+  private double getSynthTicks()
+  {
+    return cast(double) MonoTime.currTime().ticks() / clk_ms;
+  }
+
+  private void delay(double milliseconds)
+  {
+    if (precise)
+    {
+      if (milliseconds > 1.5)
+      {
+        long begin = MonoTime.currTime().ticks();
+        SDL_Delay(cast(int) milliseconds - 1);
+        long end = MonoTime.currTime().ticks();
+
+        double slept = cast(double)(end - begin) / clk_ms;
+        milliseconds -= slept;
+      }
+
+      long begin = MonoTime.currTime().ticks();
+      while ((MonoTime.currTime().ticks() - begin) / clk_ms < milliseconds)
+      {
+      }
+    }
+    else
+    {
+      SDL_Delay(cast(int) milliseconds);
+    }
+  }
+
   public void loop()
   {
     done = false;
-    long prvTickCount = 0;
+    double prvTickCount = 0;
     int i;
-    long nowTick;
+    double nowTick;
     int frame;
 
     screen.initSDL();
@@ -97,15 +133,15 @@ private:
       input.handleEvent(&event);
       if (event.type == SDL_QUIT)
         breakLoop();
-      nowTick = SDL_GetTicks();
-      frame = cast(int)(nowTick - prvTickCount) / interval;
+      nowTick = getSynthTicks();
+      frame = cast(int)((nowTick - prvTickCount) / interval);
       if (frame <= 0)
       {
         frame = 1;
-        SDL_Delay(cast(uint)(prvTickCount + interval - nowTick));
+        delay(prvTickCount + interval - nowTick);
         if (accframe)
         {
-          prvTickCount = SDL_GetTicks();
+          prvTickCount = getSynthTicks();
         }
         else
         {

@@ -90,7 +90,7 @@ private:
   int bossShield;
   int[BOSS_WING_NUM] bossWingShield;
   const float[P47PrefManager.MODE_NUM] SLOWDOWN_START_BULLETS_SPEED = [30, 42];
-  float interval;
+  double interval;
   Title title;
 
   // Initialize actor pools, load BGMs/SEs and textures.
@@ -383,7 +383,7 @@ private:
     rolls.clear();
     locks.clear();
     setScreenShake(0, 0);
-    mainLoop.interval = cast(int)(interval = mainLoop.INTERVAL_BASE);
+    mainLoop.interval = interval = mainLoop.INTERVAL_BASE;
     cnt = 0;
     if (score > prefManager.hiScore[mode][difficulty][parsecSlot])
       prefManager.hiScore[mode][difficulty][parsecSlot] = score;
@@ -448,12 +448,12 @@ private:
         if (sm > 1.75)
           sm = 1.75;
         interval += (sm * mainLoop.INTERVAL_BASE - interval) * 0.1;
-        mainLoop.interval = cast(int)(interval);
+        mainLoop.interval = interval;
       }
       else
       {
         interval += (mainLoop.INTERVAL_BASE - interval) * 0.08;
-        mainLoop.interval = cast(int)(interval);
+        mainLoop.interval = interval;
       }
     }
   }
