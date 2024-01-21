@@ -75,26 +75,30 @@ private void parseArgs(string[] args)
       Sound.noSound = true;
       break;
     case "-volume":
-      if (i >= args.length - 1) {
+      if (i >= args.length - 1)
+      {
         usage(args[0]);
         throw new Exception("Invalid options");
       }
       i++;
       int v = to!int(args[i]);
-      if (v < 0 || v > SDL_MIX_MAXVOLUME) {
+      if (v < 0 || v > SDL_MIX_MAXVOLUME)
+      {
         usage(args[0]);
         throw new Exception("Invalid options");
       }
       Sound.volume = v;
       break;
     case "-bgmvol":
-      if (i >= args.length - 1) {
+      if (i >= args.length - 1)
+      {
         usage(args[0]);
         throw new Exception("Invalid options");
       }
       i++;
       int v = to!int(args[i]);
-      if (v < 0 || v > SDL_MIX_MAXVOLUME) {
+      if (v < 0 || v > SDL_MIX_MAXVOLUME)
+      {
         usage(args[0]);
         throw new Exception("Invalid options");
       }
@@ -160,55 +164,7 @@ public int boot(string[] args)
   return EXIT_SUCCESS;
 }
 
-version (Win32_release)
+public int main(string[] args)
 {
-
-  // Boot as the Windows executable.
-  import std.c.windows.windows;
-  import std.string;
-
-  extern (C) void gc_init();
-  extern (C) void gc_term();
-  extern (C) void _minit();
-  extern (C) void _moduleCtor();
-
-  extern (Windows)
-  public int WinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    int nCmdShow)
-  {
-    int result;
-
-    gc_init();
-    _minit();
-    try
-    {
-      _moduleCtor();
-      char[4096] exe;
-      GetModuleFileNameA(null, exe, 4096);
-      string[1] prog;
-      prog[0] = to!string(exe);
-      result = boot(prog ~ std.string.split(to!string(lpCmdLine)));
-    }
-    catch (Throwable o)
-    {
-      //Logger.error("Exception: " ~ o.toString());
-      Logger.info("Exception: " ~ o.toString());
-      result = EXIT_FAILURE;
-    }
-    gc_term();
-    return result;
-  }
-
-}
-else
-{
-
-  // Boot as the general executable.
-  public int main(string[] args)
-  {
-    return boot(args);
-  }
-
+  return boot(args);
 }
