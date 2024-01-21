@@ -30,7 +30,7 @@ public:
   double interval = INTERVAL_BASE;
   int accframe = 0;
   int maxSkipFrame = 5;
-  bool precise = false;
+  bool precise = true;
   SDL_Event event;
 
 private:

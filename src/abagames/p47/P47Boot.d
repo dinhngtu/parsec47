@@ -124,8 +124,8 @@ private void parseArgs(string[] args)
     case "-accframe":
       mainLoop.accframe = 1;
       break;
-    case "-precise":
-      mainLoop.precise = 1;
+    case "-oldclock":
+      mainLoop.precise = false;
       break;
     default:
       usage(args[0]);
