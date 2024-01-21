@@ -33,23 +33,6 @@ private:
     return x * v.x + y * v.y;
   }
 
-  public Vector getElement(Vector v)
-  {
-    Vector rsl;
-    float ll = v.x * v.x + v.y * v.y;
-    if (ll != 0)
-    {
-      float mag = innerProduct(v);
-      rsl.x = mag * v.x / ll;
-      rsl.y = mag * v.y / ll;
-    }
-    else
-    {
-      rsl.x = rsl.y = 0;
-    }
-    return rsl;
-  }
-
   public void add(Vector v)
   {
     x += v.x;
