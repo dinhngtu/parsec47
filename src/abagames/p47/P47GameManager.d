@@ -90,7 +90,6 @@ private:
   int bossShield;
   int[BOSS_WING_NUM] bossWingShield;
   const float[P47PrefManager.MODE_NUM] SLOWDOWN_START_BULLETS_SPEED = [30, 42];
-  double interval;
   Title title;
 
   // Initialize actor pools, load BGMs/SEs and textures.
@@ -140,7 +139,6 @@ private:
     stageManager.init(this, barrageManager, field);
     title = new Title;
     title.init(pad, this, prefManager, field);
-    interval = mainLoop.INTERVAL_BASE;
     SoundManager.init(this);
   }
 
@@ -383,7 +381,7 @@ private:
     rolls.clear();
     locks.clear();
     setScreenShake(0, 0);
-    mainLoop.interval = interval = mainLoop.INTERVAL_BASE;
+    mainLoop.resetSlow();
     cnt = 0;
     if (score > prefManager.hiScore[mode][difficulty][parsecSlot])
       prefManager.hiScore[mode][difficulty][parsecSlot] = score;
@@ -482,16 +480,14 @@ private:
       // Intentional slowdown when the total speed of bullets is over SLOWDOWN_START_BULLETS_SPEED
       if (BulletActor.totalBulletsSpeed > SLOWDOWN_START_BULLETS_SPEED[mode])
       {
-        float sm = BulletActor.totalBulletsSpeed / SLOWDOWN_START_BULLETS_SPEED[mode];
+        double sm = BulletActor.totalBulletsSpeed / SLOWDOWN_START_BULLETS_SPEED[mode];
         if (sm > 1.75)
           sm = 1.75;
-        interval += (sm * mainLoop.INTERVAL_BASE - interval) * 0.1;
-        mainLoop.interval = interval;
+        mainLoop.slow(sm);
       }
       else
       {
-        interval += (mainLoop.INTERVAL_BASE - interval) * 0.08;
-        mainLoop.interval = interval;
+        mainLoop.unslow();
       }
     }
   }

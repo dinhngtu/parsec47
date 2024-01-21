@@ -27,8 +27,9 @@ import abagames.util.sdl.SDLInitFailedException;
 public class MainLoop
 {
 public:
-  const double INTERVAL_BASE = 16.67;
-  double interval = INTERVAL_BASE;
+  const double INTERVAL_MS = 16.6667;
+  long interval;
+  long interval_base;
   int accframe = 0;
   int maxSkipFrame = 5;
   bool precise = true;
@@ -52,6 +53,7 @@ private:
     this.gameManager = gameManager;
     this.prefManager = prefManager;
     this.clk_ms = cast(double) MonoTime.currTime().ticksPerSecond() / 1000.0;
+    this.interval = this.interval_base = cast(long)(INTERVAL_MS * clk_ms);
   }
 
   // Initialize and load preference.
@@ -86,18 +88,13 @@ private:
     done = true;
   }
 
-  private double getSynthTicks()
+  private void delay(long count)
   {
-    return cast(double) MonoTime.currTime().ticks() / clk_ms;
-  }
-
-  private void delay(double milliseconds)
-  {
+    int milliseconds = cast(int)(count / clk_ms);
     if (precise)
     {
       long begin = MonoTime.currTime().ticks();
-      long count = cast(long)(milliseconds * clk_ms);
-      if (milliseconds > 1.5)
+      if (milliseconds > 1)
         SDL_Delay(cast(int) milliseconds - 1);
       while (MonoTime.currTime().ticks() - begin < count)
         core.atomic.pause();
@@ -108,13 +105,28 @@ private:
     }
   }
 
+  public void slow(double factor)
+  {
+    interval += cast(long)((factor * interval_base - interval) * 0.1);
+  }
+
+  public void unslow()
+  {
+    interval += cast(long)((interval_base - interval) * 0.08);
+  }
+
+  public void resetSlow()
+  {
+    interval = interval_base;
+  }
+
   public void loop()
   {
     done = false;
-    double prvTickCount = 0;
+    long prvTickCount = 0;
     int i;
-    double nowTick;
-    int frame;
+    long nowTick;
+    long frame;
 
     screen.initSDL();
     initFirst();
@@ -126,15 +138,15 @@ private:
       input.handleEvent(&event);
       if (event.type == SDL_QUIT)
         breakLoop();
-      nowTick = getSynthTicks();
-      frame = cast(int)((nowTick - prvTickCount) / interval);
+      nowTick = MonoTime.currTime().ticks();
+      frame = (nowTick - prvTickCount) / interval;
       if (frame <= 0)
       {
         frame = 1;
         delay(prvTickCount + interval - nowTick);
         if (accframe)
         {
-          prvTickCount = getSynthTicks();
+          prvTickCount = MonoTime.currTime().ticks();
         }
         else
         {
