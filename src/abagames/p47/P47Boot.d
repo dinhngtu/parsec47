@@ -35,6 +35,16 @@ private void usage(string args0)
   Logger.error("Usage: " ~ args0 ~ " [-brightness [0-100]] [-luminous [0-100]] [-nosound] [-window] [-fullscreen] [-reverse] [-lowres] [-slowship] [-nowait]");
 }
 
+private void setHighPriority()
+{
+  version (Windows)
+  {
+    import core.sys.windows.windows;
+
+    SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
+  }
+}
+
 private void parseArgs(string[] args)
 {
   for (int i = 1; i < args.length; i++)
@@ -130,6 +140,9 @@ private void parseArgs(string[] args)
       break;
     case "-oldclock":
       mainLoop.precise = false;
+      break;
+    case "-high":
+      setHighPriority();
       break;
     default:
       usage(args[0]);
