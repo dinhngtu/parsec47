@@ -79,13 +79,13 @@ private:
 
   public void loadSound(string name)
   {
-    if (noSound)
+    if (noSound || noBgm)
       return;
     string fileName = soundsDir ~ name;
     music = Mix_LoadMUS(std.string.toStringz(fileName));
     if (!music)
     {
-      noSound = true;
+      noBgm = true;
       throw new SDLInitFailedException(
         "Couldn't load: " ~ fileName ~
           " (" ~ to!string(Mix_GetError()) ~ ")");
@@ -127,21 +127,21 @@ private:
 
   public void playMusic()
   {
-    if (noSound)
+    if (noSound || noBgm)
       return;
     Mix_PlayMusic(music, -1);
   }
 
   public static void fadeMusic()
   {
-    if (noSound)
+    if (noSound || noBgm)
       return;
     Mix_FadeOutMusic(fadeOutSpeed);
   }
 
   public static void stopMusic()
   {
-    if (noSound)
+    if (noSound || noBgm)
       return;
     if (Mix_PlayingMusic())
     {

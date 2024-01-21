@@ -84,6 +84,9 @@ private void parseArgs(string[] args)
     case "-nosound":
       Sound.noSound = true;
       break;
+    case "-nobgm":
+      Sound.noBgm = true;
+      break;
     case "-volume":
       if (i >= args.length - 1)
       {
