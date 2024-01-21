@@ -1,0 +1,28 @@
+{
+	"authors": [
+		"Kenta Cho"
+	],
+	"copyright": "Copyright 2003 Kenta Cho",
+	"description": "Parsec47",
+	"license": "BSD-2-Clause",
+	"name": "p47",
+	"targetType": "executable",
+	"targetName": "p48",
+	"importPaths": [
+		"src",
+		"import"
+	],
+	"buildRequirements": [
+		"allowWarnings"
+	],
+	"sourceFiles": [
+		"import/SDL_mixer.d",
+		"import/SDL_video.d"
+	],
+	"libs": [
+		"opengl32",
+		"lib/SDL",
+		"lib/SDL_mixer",
+		"lib/bulletml"
+	]
+}
