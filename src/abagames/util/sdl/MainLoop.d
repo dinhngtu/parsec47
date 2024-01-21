@@ -95,21 +95,12 @@ private:
   {
     if (precise)
     {
-      if (milliseconds > 1.5)
-      {
-        long begin = MonoTime.currTime().ticks();
-        SDL_Delay(cast(int) milliseconds - 1);
-        long end = MonoTime.currTime().ticks();
-
-        double slept = cast(double)(end - begin) / clk_ms;
-        milliseconds -= slept;
-      }
-
       long begin = MonoTime.currTime().ticks();
-      while ((MonoTime.currTime().ticks() - begin) / clk_ms < milliseconds)
-      {
+      long count = cast(long)(milliseconds * clk_ms);
+      if (milliseconds > 1.5)
+        SDL_Delay(cast(int) milliseconds - 1);
+      while (MonoTime.currTime().ticks() - begin < count)
         core.atomic.pause();
-      }
     }
     else
     {
