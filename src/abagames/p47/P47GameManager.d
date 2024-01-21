@@ -408,35 +408,53 @@ private:
     stageManager.move();
   }
 
-  private bool doEscape()
+  private bool checkQuit()
   {
-    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED)
+    static bool pressed = false;
+    if (pad.keys[SDLK_F10] == SDL_PRESSED)
     {
-      if (!pEscaped)
+      if (!pressed)
       {
-        pEscaped = true;
+        pressed = true;
         return true;
       }
     }
     else
     {
-      pEscaped = false;
+      pressed = false;
+    }
+    return false;
+  }
+
+  private bool checkPause()
+  {
+    static bool pressed = true;
+    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED || pad.keys[SDLK_p] == SDL_PRESSED)
+    {
+      if (!pressed)
+      {
+        pressed = true;
+        return true;
+      }
+    }
+    else
+    {
+      pressed = false;
     }
     return false;
   }
 
   private void kill()
   {
+    score = 0;
     left = 0;
     shipDestroyed();
+    startTitle();
   }
-
-  private bool pPrsd = true;
-  private bool pEscaped = false;
 
   private void inGameMove()
   {
-    if (doEscape())
+    if (checkQuit())
     {
       kill();
     }
@@ -455,17 +473,9 @@ private:
     particles.move();
     fragments.move();
     moveScreenShake();
-    if (pad.keys[SDLK_p] == SDL_PRESSED)
+    if (checkPause())
     {
-      if (!pPrsd)
-      {
-        pPrsd = true;
-        startPause();
-      }
-    }
-    else
-    {
-      pPrsd = false;
+      startPause();
     }
     if (!nowait)
     {
@@ -490,7 +500,7 @@ private:
 
   private void titleMove()
   {
-    if (doEscape())
+    if (checkQuit())
     {
       mainLoop.breakLoop();
     }
@@ -535,7 +545,7 @@ private:
 
   private void gameoverMove()
   {
-    if (doEscape())
+    if (checkQuit())
     {
       startTitle();
     }
@@ -574,24 +584,14 @@ private:
   private void pauseMove()
   {
     pauseCnt++;
-    if (doEscape())
+    if (checkQuit())
     {
-      pPrsd = true;
       resumePause();
       kill();
-      return;
     }
-    if (pad.keys[SDLK_p] == SDL_PRESSED)
+    else if (checkPause())
     {
-      if (!pPrsd)
-      {
-        pPrsd = true;
-        resumePause();
-      }
-    }
-    else
-    {
-      pPrsd = false;
+      resumePause();
     }
   }
 
