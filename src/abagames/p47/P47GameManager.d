@@ -759,19 +759,19 @@ private:
   private void drawSlowdown()
   {
     Screen3D.setColor(0, 1, 0, 0.3);
-    P47Screen.drawBoxSolid(147, 426, 5, 45);
-    float ss = cast(float)(mainLoop.interval - mainLoop.interval_base) / mainLoop.interval_base * 45.0;
+    P47Screen.drawBoxSolid(147, 421, 5, 50);
+    float ss = cast(float)(mainLoop.interval - mainLoop.interval_base) / mainLoop.interval_base * 50.0;
     if (fabs(ss) < 0.4)
       return;
     Screen3D.setColor(1, 0, 0, 0.7);
     if (ss > 0)
     {
       //slow
-      P47Screen.drawBoxSolid(147, 426.0 - ss, 5, ss);
+      P47Screen.drawBoxSolid(147, 421.0 - ss, 5, ss);
     }
     else
     {
-      P47Screen.drawBoxSolid(147, 426.0, 5, -ss);
+      P47Screen.drawBoxSolid(147, 421.0, 5, -ss);
     }
   }
 
