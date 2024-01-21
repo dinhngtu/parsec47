@@ -408,10 +408,38 @@ private:
     stageManager.move();
   }
 
+  private bool doEscape()
+  {
+    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED)
+    {
+      if (!pEscaped)
+      {
+        pEscaped = true;
+        return true;
+      }
+    }
+    else
+    {
+      pEscaped = false;
+    }
+    return false;
+  }
+
+  private void kill()
+  {
+    left = 0;
+    shipDestroyed();
+  }
+
   private bool pPrsd = true;
+  private bool pEscaped = false;
 
   private void inGameMove()
   {
+    if (doEscape())
+    {
+      kill();
+    }
     stageMove();
     field.move();
     ship.move();
@@ -462,6 +490,10 @@ private:
 
   private void titleMove()
   {
+    if (doEscape())
+    {
+      mainLoop.breakLoop();
+    }
     title.move();
     if (cnt <= 8)
     {
@@ -503,6 +535,10 @@ private:
 
   private void gameoverMove()
   {
+    if (doEscape())
+    {
+      startTitle();
+    }
     bool gotoNextState = false;
     if (cnt <= 64)
     {
@@ -538,6 +574,13 @@ private:
   private void pauseMove()
   {
     pauseCnt++;
+    if (doEscape())
+    {
+      pPrsd = true;
+      resumePause();
+      kill();
+      return;
+    }
     if (pad.keys[SDLK_p] == SDL_PRESSED)
     {
       if (!pPrsd)
@@ -554,11 +597,6 @@ private:
 
   public override void move()
   {
-    if (pad.keys[SDLK_ESCAPE] == SDL_PRESSED)
-    {
-      mainLoop.breakLoop();
-      return;
-    }
     switch (state)
     {
     case IN_GAME:
