@@ -1,7 +1,9 @@
 allmusics/*
 sounds/*
+x64/*
 *.exe
 *.dll
+*.pdb
 *.bat
 *.prf
 *.obj

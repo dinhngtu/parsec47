@@ -41,7 +41,7 @@ public:
   BulletMLParserTinyXML*[BARRAGE_TYPE][BARRAGE_MAX] parser;
   int[BARRAGE_TYPE] parserNum;
 private:
-  static const char[][BARRAGE_TYPE] dirName =
+  static const string[BARRAGE_TYPE] dirName =
     [
       "morph", "small", "smallmove", "smallsidemove",
       "middle", "middlesub", "middlemove", "middlebackmove",
