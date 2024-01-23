@@ -309,6 +309,8 @@ private:
   public void startStage(int difficulty, int parsecSlot, int startParsec, int mode)
   {
     enemies.clear();
+    particles.clear();
+    fragments.clear();
     bullets.clear();
     this.difficulty = difficulty;
     this.parsecSlot = parsecSlot;
