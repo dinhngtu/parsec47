@@ -33,6 +33,7 @@ public:
   int accframe = 0;
   int maxSkipFrame = 5;
   bool precise = true;
+  bool fdb = false;
   SDL_Event event;
   int hasEvent = 0;
 
@@ -128,6 +129,7 @@ private:
     int i;
     long nowTick;
     long frame;
+    long toWait;
 
     screen.initSDL();
     initFirst();
@@ -145,10 +147,20 @@ private:
       input.poll();
       nowTick = MonoTime.currTime().ticks();
       frame = (nowTick - prvTickCount) / interval;
+      toWait = 0;
       if (frame <= 0)
       {
         frame = 1;
-        delay(prvTickCount + interval - nowTick);
+        toWait = prvTickCount + interval - nowTick;
+        if (fdb)
+        {
+          toWait /= 2;
+          delay(toWait);
+        }
+        else
+        {
+          delay(toWait);
+        }
         if (accframe)
         {
           prvTickCount = MonoTime.currTime().ticks();
@@ -170,6 +182,13 @@ private:
       for (i = 0; i < frame; i++)
       {
         gameManager.move();
+      }
+      if (fdb && toWait > 0)
+      {
+        screen.clear();
+        gameManager.draw();
+        screen.flip();
+        delay(toWait);
       }
       screen.clear();
       gameManager.draw();

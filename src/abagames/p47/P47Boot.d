@@ -144,6 +144,9 @@ private void parseArgs(string[] args)
     case "-oldclock":
       mainLoop.precise = false;
       break;
+    case "-fdb":
+      mainLoop.fdb = true;
+      break;
     case "-high":
       setHighPriority();
       break;
