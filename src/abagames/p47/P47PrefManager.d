@@ -89,7 +89,7 @@ public:
       fd.rawRead((&selectedParsecSlot)[0 .. 1]);
       fd.rawRead((&selectedMode)[0 .. 1]);
     }
-    catch (Error e)
+    catch (Exception e)
     {
       init();
     }
