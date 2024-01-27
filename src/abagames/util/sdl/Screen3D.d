@@ -29,6 +29,7 @@ public:
   static float farPlane = 1000;
   static float lineWidth = 2.0;
   static bool smooth = true;
+  static int vsync = int.min;
 
 private:
 
@@ -50,6 +51,10 @@ private:
     {
       throw new SDLInitFailedException(
         "Unable to initialize SDL: " ~ to!string(SDL_GetError()));
+    }
+    if (vsync != int.min && SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, vsync) < 0)
+    {
+      throw new SDLInitFailedException("Unable to set swap control: " ~ to!string(SDL_GetError()));
     }
     // Create an OpenGL screen.
     if (windowMode)

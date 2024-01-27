@@ -147,6 +147,15 @@ private void parseArgs(string[] args)
     case "-high":
       setHighPriority();
       break;
+    case "-vsync":
+      if (i >= args.length - 1)
+      {
+        usage(args[0]);
+        throw new Exception("Invalid options");
+      }
+      i++;
+      Screen3D.vsync = to!int(args[i]);
+      break;
     default:
       usage(args[0]);
       throw new Exception("Invalid options");
