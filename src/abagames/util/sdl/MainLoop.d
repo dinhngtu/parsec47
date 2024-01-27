@@ -41,7 +41,7 @@ private:
   Input input;
   GameManager gameManager;
   PrefManager prefManager;
-  double clk_ms;
+  long clk_ms;
 
   public this(Screen screen, Input input,
     GameManager gameManager, PrefManager prefManager)
@@ -53,8 +53,8 @@ private:
     gameManager.setPrefManager(prefManager);
     this.gameManager = gameManager;
     this.prefManager = prefManager;
-    this.clk_ms = cast(double) MonoTime.currTime().ticksPerSecond() / 1000.0;
-    this.interval = this.interval_base = cast(long)(INTERVAL_MS * clk_ms);
+    this.clk_ms = MonoTime.currTime().ticksPerSecond() / 1000;
+    this.interval = this.interval_base = MonoTime.currTime().ticksPerSecond() / 60;
   }
 
   // Initialize and load preference.
@@ -91,7 +91,7 @@ private:
 
   private void delay(long count)
   {
-    int milliseconds = cast(int)(count / clk_ms);
+    long milliseconds = count / clk_ms;
     if (precise)
     {
       long begin = MonoTime.currTime().ticks();
