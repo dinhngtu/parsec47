@@ -24,7 +24,7 @@ public:
   static const int PAD_RIGHT = 8;
   static const int PAD_BUTTON1 = 16;
   static const int PAD_BUTTON2 = 32;
-  Uint8* keys;
+  Uint8* keys = null;
   bool buttonReversed = false;
 
 private:
@@ -41,7 +41,7 @@ private:
     stick = SDL_JoystickOpen(0);
   }
 
-  public override void handleEvent(SDL_Event* event)
+  public override void poll()
   {
     keys = SDL_GetKeyState(null);
   }

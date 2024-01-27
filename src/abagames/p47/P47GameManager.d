@@ -844,12 +844,15 @@ private:
 
   public override void draw()
   {
-    SDL_Event e = mainLoop.event;
-    if (e.type == SDL_VIDEORESIZE)
+    if (mainLoop.hasEvent)
     {
-      SDL_ResizeEvent re = e.resize;
-      if (re.w > 150 && re.h > 100)
-        screen.resized(re.w, re.h);
+      SDL_Event e = mainLoop.event;
+      if (e.type == SDL_VIDEORESIZE)
+      {
+        SDL_ResizeEvent re = e.resize;
+        if (re.w > 150 && re.h > 100)
+          screen.resized(re.w, re.h);
+      }
     }
     screen.startRenderToTexture();
     glPushMatrix();

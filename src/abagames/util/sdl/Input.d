@@ -14,5 +14,5 @@ import SDL;
 //public interface Input {
 public abstract class Input
 {
-  public void handleEvent(SDL_Event* event);
+  public void poll();
 }

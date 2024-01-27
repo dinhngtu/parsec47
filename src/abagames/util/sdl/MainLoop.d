@@ -34,6 +34,7 @@ public:
   int maxSkipFrame = 5;
   bool precise = true;
   SDL_Event event;
+  int hasEvent = 0;
 
 private:
   Screen screen;
@@ -134,10 +135,14 @@ private:
 
     while (!done)
     {
-      SDL_PollEvent(&event);
-      input.handleEvent(&event);
-      if (event.type == SDL_QUIT)
-        breakLoop();
+      hasEvent = SDL_PollEvent(&event);
+      if (hasEvent)
+      {
+        hasEvent = true;
+        if (event.type == SDL_QUIT)
+          breakLoop();
+      }
+      input.poll();
       nowTick = MonoTime.currTime().ticks();
       frame = (nowTick - prvTickCount) / interval;
       if (frame <= 0)
